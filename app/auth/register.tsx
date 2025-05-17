@@ -1,11 +1,44 @@
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
+import { UserDetailContext } from '@/context/UserDetailContext';
 import { useRouter } from 'expo-router';
-import React from 'react';
-import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from 'firebase/firestore';
+import React, { useContext, useState } from 'react';
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { auth, db } from '../../config/firebaseConfig';
 
 const Register = () => {
   const router = useRouter();
+
+  const [fullName, setFullName] = useState('Test User');
+  const [email, setEmail] = useState('test@user.com');
+  const [password, setPassword] = useState('12345');
+  const [loading, setLoading] = useState(false);
+  const { userDetail, setUserDetail } = useContext(UserDetailContext);
+
+  const createNewAccount = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async resp => {
+        const user = resp.user;
+        console.log(user);
+        await SaveUser(user);
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
+
+  const SaveUser = async (user: any) => {
+    const data = {
+      name: fullName,
+      email,
+      member: false,
+      uid: user?.uid
+    };
+    await setDoc(doc(db, 'users', email), data);
+    setUserDetail(data);
+  };
 
   return (
     <View style={{
@@ -16,11 +49,30 @@ const Register = () => {
       <Image source={images.landing} style={styles.heroImage} />
       <View style={styles.btmContainer}>
         <Text style={styles.pageCaption}>Create An Account</Text>
-        <TextInput placeholder='Full name' style={styles.textInput} placeholderTextColor={colors.MID_GRAY} />
-        <TextInput placeholder='Email' style={styles.textInput} placeholderTextColor={colors.MID_GRAY} />
-        <TextInput placeholder='Password' style={styles.textInput} placeholderTextColor={colors.MID_GRAY} secureTextEntry={true} />
-        <TouchableOpacity style={styles.btn}>
-          <Text style={styles.btnText}>Create Account</Text>
+        <TextInput
+          placeholder='Full name'
+          onChangeText={(value) => setFullName(value)}
+          placeholderTextColor={colors.MID_GRAY}
+          style={styles.textInput}
+        />
+        <TextInput
+          placeholder='Email'
+          onChangeText={(value) => setEmail(value)}
+          placeholderTextColor={colors.MID_GRAY}
+          style={styles.textInput}
+        />
+        <TextInput
+          placeholder='Password'
+          onChangeText={(value) => setPassword(value)}
+          placeholderTextColor={colors.MID_GRAY}
+          secureTextEntry={true}
+          style={styles.textInput}
+        />
+        <TouchableOpacity onPress={createNewAccount} style={styles.btn} disabled={loading}>
+          {!loading ?
+            <Text style={styles.btnText}>Create Account</Text> :
+            <ActivityIndicator size='small' color={colors.WHITE} />
+          }
         </TouchableOpacity>
         <View style={styles.ahaBox}>
           <Text style={styles.ahaText}>
@@ -33,11 +85,11 @@ const Register = () => {
       </View>
 
       <Image
-        source={images.accentBlob}   // or { uri: '…' }
+        source={images.accentBlob}
         style={styles.accentBlob}
       />
       <Image
-        source={images.accentBlob}   // or { uri: '…' }
+        source={images.accentBlob}
         style={styles.accentBlob2}
       />
     </View>

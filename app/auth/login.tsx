@@ -1,21 +1,66 @@
+import { auth, db } from '@/config/firebaseConfig';
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
+import { UserDetail, UserDetailContext } from '@/context/UserDetailContext';
 import { useRouter } from 'expo-router';
-import React from 'react';
-import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import React, { useContext, useState } from 'react';
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from "react-native";
 
 const Login = () => {
   const router = useRouter();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { userDetail, setUserDetail } = useContext(UserDetailContext);
+
+  const onLoginClick = () => {
+    setLoading(true);
+    signInWithEmailAndPassword(auth, email, password)
+      .then(async resp => {
+        const user = resp.user;
+        console.log(user);
+        setLoading(false);
+        await getUserDetail();
+        router.replace('/(tabs)/home');
+      }).catch(error => {
+        console.log(error);
+        setLoading(false);
+        ToastAndroid.show('Incorrect email or password', ToastAndroid.BOTTOM);
+      });
+  };
+
+  const getUserDetail = async () => {
+    const result = await getDoc(doc(db, 'users', email));
+    console.log(result.data);
+    setUserDetail(result.data() as UserDetail);
+  };
 
   return (
     <View>
       <Image source={images.landing} style={styles.heroImage} />
       <View style={styles.btmContainer}>
         <Text style={styles.pageCaption}>Login to Continue</Text>
-        <TextInput placeholder='Email' style={styles.textInput} placeholderTextColor={colors.MID_GRAY} />
-        <TextInput placeholder='Password' style={styles.textInput} placeholderTextColor={colors.MID_GRAY} secureTextEntry={true} />
-        <TouchableOpacity style={styles.btn}>
-          <Text style={styles.btnText}>Login</Text>
+        <TextInput
+          placeholder='Email'
+          style={styles.textInput}
+          placeholderTextColor={colors.MID_GRAY}
+          onChangeText={(value) => setEmail(value)}
+        />
+        <TextInput
+          placeholder='Password'
+          style={styles.textInput}
+          placeholderTextColor={colors.MID_GRAY}
+          secureTextEntry={true}
+          onChangeText={(value) => setPassword(value)}
+        />
+        <TouchableOpacity style={styles.btn} onPress={onLoginClick} disabled={loading}>
+          {!loading ?
+            <Text style={styles.btnText}>Login</Text> :
+            <ActivityIndicator size='small' color={colors.WHITE} />
+          }
         </TouchableOpacity>
         <View style={styles.ahaBox}>
           <Text style={styles.ahaText}>
