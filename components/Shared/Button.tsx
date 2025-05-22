@@ -1,23 +1,29 @@
+// components / Shared / Button.tsx
+
 import { colors } from '@/constants/colors';
 import React from 'react';
-import { GestureResponderEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, GestureResponderEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface ButtonProps {
   outline?: true;
   onPress: ((event: GestureResponderEvent) => void) | undefined;
   text: string;
+  loading: boolean;
 }
-const Button = ({ outline, onPress, text }: ButtonProps) => {
+const Button = ({ outline, onPress, text, loading }: ButtonProps) => {
   return (
     <View>
-      <TouchableOpacity onPress={onPress} style={
-        [styles.sharedStyle, outline ? styles.btnOutline : styles.btnFilled]
-      }>
-        <Text
-          style={[styles.sharedStyleTxt, {
-            color: outline ? colors.PRIMARY_BLUE : colors.WHITE
-          }]}
-        >{text}</Text>
+      <TouchableOpacity
+        onPress={onPress}
+        style={[styles.sharedStyle, outline ? styles.btnOutline : styles.btnFilled]}
+        disabled={loading}
+      >
+        {loading ? <ActivityIndicator size={'small'} color={outline ? colors.PRIMARY_BLUE : colors.WHITE} /> :
+          <Text
+            style={[styles.sharedStyleTxt, {
+              color: outline ? colors.PRIMARY_BLUE : colors.WHITE
+            }]}
+          >{text}</Text>}
       </TouchableOpacity>
     </View>
   );
