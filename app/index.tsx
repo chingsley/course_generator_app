@@ -25,7 +25,7 @@ export default function Index() {
         }
       });
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
   return (
