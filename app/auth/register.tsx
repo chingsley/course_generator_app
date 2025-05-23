@@ -1,3 +1,5 @@
+// app / auth / register.tsx
+
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
 import { UserDetailContext } from '@/context/UserDetailContext';

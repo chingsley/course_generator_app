@@ -1,3 +1,5 @@
+// app / index.tsx
+
 import { auth, db } from '@/config/firebaseConfig';
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
@@ -5,21 +7,26 @@ import { UserDetail, UserDetailContext } from '@/context/UserDetailContext';
 import { useRouter } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const router = useRouter();
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
 
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      console.log(user);
-      const result = await getDoc(doc(db, 'users', user.email!));
-      setUserDetail(result.data() as UserDetail);
-      router.replace('/(tabs)/home');
-    }
-  });
+  useEffect(() => {
+    const unsubscribe =
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          console.log(user);
+          const result = await getDoc(doc(db, 'users', user.email!));
+          setUserDetail(result.data() as UserDetail);
+          router.replace('/(tabs)/home');
+        }
+      });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <View

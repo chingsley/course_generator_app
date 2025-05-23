@@ -1,3 +1,5 @@
+// app / auth / login.tsx
+
 import { auth, db } from '@/config/firebaseConfig';
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
