@@ -2,14 +2,40 @@
 
 import Button from '@/components/Shared/Button';
 import { colors } from '@/constants/colors';
+import prompts from '@/constants/prompts';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { generateTopicsAIModel } from '../../config/aiModel';
 
 
 const AddCourse = () => {
   const [loading, setLoading] = useState(false);
+  const [userInput, setUserInput] = useState('');
+  const [topics, setTopics] = useState([]);
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
 
-  const generateCourse = () => { };
+  const generateCourse = async () => {
+    setLoading(true);
+    const prompt = userInput + prompts.forTopic(userInput);
+    const aiResponse = await generateTopicsAIModel(prompt);
+    const topicIdea = JSON.parse(aiResponse.text!);
+    console.log(topicIdea);
+    setTopics(topicIdea);
+    setLoading(false);
+  };
+
+  const onTopicSelect = (clickedTopic: string) => {
+    const alreadySelected = selectedTopics.find(topic => topic === clickedTopic);
+    if (alreadySelected) {
+      // deselect topic is already selected
+      setSelectedTopics(prev => prev.filter(tpc => tpc !== clickedTopic));
+    } else {
+      // select otherwise
+      setSelectedTopics(prev => [...prev, clickedTopic]);
+    }
+  };
+
+  const isSelectedTopic = (topic: string) => selectedTopics.find(tpc => tpc === topic);
   return (
     <View style={styles.container}>
       <Text style={styles.pageTitle}>Create New Course</Text>
@@ -21,8 +47,28 @@ const AddCourse = () => {
         style={styles.textInput}
         placeholder='(Eg. Learn Python, Learn 12th Chemistry)'
         placeholderTextColor={colors.GRAY}
+        onChangeText={value => setUserInput(value)}
       />
-      <Button text={'Generate Course'} onPress={generateCourse} loading={loading} />
+      <Button
+        text={'Generate Course'}
+        onPress={generateCourse}
+        loading={loading}
+        disabled={!userInput}
+      />
+
+      <View style={styles.outputContainer}>
+        <Text style={styles.courseSelectionPrompt}>Choose your preferred topics</Text>
+        <View style={styles.itemsContainer}>
+          {topics.map((item, idx) => (
+            <Pressable key={idx} onPress={() => onTopicSelect(item)}>
+              <Text style={[styles.itemText, {
+                backgroundColor: isSelectedTopic(item) && colors.PRIMARY_BLUE,
+                color: isSelectedTopic(item) ? colors.WHITE : colors.PRIMARY_BLUE,
+              }]}>{item}</Text>
+            </Pressable>
+          ))}
+        </View>
+      </View>
     </View>
   );
 };
@@ -58,5 +104,25 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: 'flex-start',
     fontSize: 18,
+  },
+  outputContainer: {
+    marginTop: 15,
+  },
+  courseSelectionPrompt: {
+    fontFamily: 'roboto',
+    fontSize: 20,
+  },
+  itemsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 6,
+  },
+  itemText: {
+    padding: 7,
+    borderWidth: 0.4,
+    borderRadius: 99,
+    paddingHorizontal: 15,
   }
 });

@@ -18,7 +18,7 @@ export default function Index() {
     const unsubscribe =
       onAuthStateChanged(auth, async (user) => {
         if (user) {
-          console.log(user);
+          // console.log(user);
           const result = await getDoc(doc(db, 'users', user.email!));
           setUserDetail(result.data() as UserDetail);
           router.replace('/(tabs)/home');

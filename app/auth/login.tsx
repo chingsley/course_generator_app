@@ -23,7 +23,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async resp => {
         const user = resp.user;
-        console.log(user);
+        // console.log(user);
         setLoading(false);
         await getUserDetail();
         router.replace('/(tabs)/home');
@@ -36,7 +36,7 @@ const Login = () => {
 
   const getUserDetail = async () => {
     const result = await getDoc(doc(db, 'users', email));
-    console.log(result.data);
+    // console.log(result.data);
     setUserDetail(result.data() as UserDetail);
   };
 

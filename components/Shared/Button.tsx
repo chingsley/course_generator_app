@@ -9,14 +9,15 @@ interface ButtonProps {
   onPress: ((event: GestureResponderEvent) => void) | undefined;
   text: string;
   loading: boolean;
+  disabled?: boolean;
 }
-const Button = ({ outline, onPress, text, loading }: ButtonProps) => {
+const Button = ({ outline, onPress, text, loading, disabled }: ButtonProps) => {
   return (
     <View>
       <TouchableOpacity
         onPress={onPress}
         style={[styles.sharedStyle, outline ? styles.btnOutline : styles.btnFilled]}
-        disabled={loading}
+        disabled={loading || disabled}
       >
         {loading ? <ActivityIndicator size={'small'} color={outline ? colors.PRIMARY_BLUE : colors.WHITE} /> :
           <Text
