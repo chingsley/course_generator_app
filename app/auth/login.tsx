@@ -13,8 +13,8 @@ import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TextInput, Toast
 const Login = () => {
   const router = useRouter();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('Bjjhh@gmail.com');
+  const [password, setPassword] = useState('123456');
   const [loading, setLoading] = useState(false);
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
 

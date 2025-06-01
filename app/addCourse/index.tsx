@@ -1,26 +1,76 @@
 // app / addCourse / index.tsx
 
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../../config/firebaseConfig';
+
 import Button from '@/components/Shared/Button';
 import { colors } from '@/constants/colors';
 import prompts from '@/constants/prompts';
-import React, { useState } from 'react';
+import { UserDetailContext } from '@/context/UserDetailContext';
+import { useRouter } from 'expo-router';
+import React, { useContext, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { generateTopicsAIModel } from '../../config/aiModel';
+import { generateAIContent } from '../../config/aiModel';
 
 
 const AddCourse = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [topics, setTopics] = useState([]);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+  const { userDetail } = useContext(UserDetailContext);
 
-  const generateCourse = async () => {
+  const onCourseGenerate = async () => {
     setLoading(true);
-    const prompt = userInput + prompts.forTopic(userInput);
-    const aiResponse = await generateTopicsAIModel(prompt);
-    const topicIdea = JSON.parse(aiResponse.text!);
-    console.log(topicIdea);
-    setTopics(topicIdea);
+
+    try {
+      const calls = selectedTopics.map((topic) => {
+        const singlePrompt = prompts.getCourses(topic);
+        return generateAIContent(singlePrompt);
+      });
+
+      const aiResponses = await Promise.all(calls);
+      const perTopicArrays = aiResponses.map((resp) => {
+        try {
+          // console.log('\n>>>>>>>>>>>>>resp.text: \n', resp.text);
+          return JSON.parse(resp.text!);
+        } catch (e) {
+          console.error("Failed to parse JSON for one topic:", e);
+          return [];
+        }
+      });
+
+      const mergedCourses = perTopicArrays.flat();
+      // console.log("\n>>>>>> All courses merged: ", mergedCourses);
+      const writePromises = mergedCourses.map((course) =>
+        setDoc(doc(db, 'courses', Date.now().toString()), {
+          ...course,
+          createdOn: new Date(),
+          createdBy: userDetail?.email,
+        }
+        )
+      );
+      await Promise.all(writePromises);
+      router.push('/(tabs)/home');
+      setLoading(false);
+    } catch (error) {
+      console.log("\n>>>>>> Error generating courses:", error);
+      setLoading(false);
+    }
+  };
+
+  const onTopicGenerate = async () => {
+    setLoading(true);
+    try {
+      const prompt = prompts.getTopics(userInput);
+      const aiResponse = await generateAIContent(prompt);
+      const topicIdea = JSON.parse(aiResponse.text!);
+      console.log(topicIdea);
+      setTopics(topicIdea);
+    } catch (error) {
+      console.log('\nError: ', error);
+    }
     setLoading(false);
   };
 
@@ -50,8 +100,8 @@ const AddCourse = () => {
         onChangeText={value => setUserInput(value)}
       />
       <Button
-        text={'Generate Course'}
-        onPress={generateCourse}
+        text={'Generate Topic'}
+        onPress={onTopicGenerate}
         loading={loading}
         disabled={!userInput}
       />
@@ -69,6 +119,12 @@ const AddCourse = () => {
           ))}
         </View>
       </View>
+
+      {selectedTopics.length > 0 && <Button
+        text={'Generate Selected Courses'}
+        onPress={onCourseGenerate}
+        loading={loading}
+      />}
     </View>
   );
 };
@@ -107,6 +163,7 @@ const styles = StyleSheet.create({
   },
   outputContainer: {
     marginTop: 15,
+    marginBottom: 15,
   },
   courseSelectionPrompt: {
     fontFamily: 'roboto',
