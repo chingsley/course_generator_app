@@ -1,6 +1,7 @@
 import CourseList from '@/components/Home/CourseList';
 import Header from '@/components/Home/Header';
 import NoCourse from '@/components/Home/NoCourse';
+import PracticeSection from '@/components/Home/PracticeSection';
 import { db } from '@/config/firebaseConfig';
 import { colors } from '@/constants/colors';
 import { UserDetailContext } from '@/context/UserDetailContext';
@@ -36,7 +37,10 @@ const Home = () => {
       {
         courseList.length === 0 ?
           <NoCourse /> :
-          <CourseList courseList={courseList} />
+          <View>
+            <PracticeSection />
+            <CourseList courseList={courseList} />
+          </View>
       }
     </View>
   );
