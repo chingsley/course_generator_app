@@ -1,4 +1,5 @@
 import CourseList from '@/components/Home/CourseList';
+import CourseProgress from '@/components/Home/CourseProgress';
 import Header from '@/components/Home/Header';
 import NoCourse from '@/components/Home/NoCourse';
 import PracticeSection from '@/components/Home/PracticeSection';
@@ -38,6 +39,7 @@ const Home = () => {
         courseList.length === 0 ?
           <NoCourse /> :
           <View>
+            <CourseProgress courseList={courseList} />
             <PracticeSection />
             <CourseList courseList={courseList} />
           </View>

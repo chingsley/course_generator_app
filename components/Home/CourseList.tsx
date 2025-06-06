@@ -22,7 +22,7 @@ const CourseList = ({ courseList }: CourseListProps) => {
             <Image source={images.appIcon} style={styles.courseCardImg} />
             <Text style={styles.courseCardTitle}>{item.courseTitle}</Text>
             <View style={styles.chaptContainer}>
-              <Ionicons name="book-outline" size={20} color={'black'} />,
+              <Ionicons name="book-outline" size={20} color={'black'} />
               <Text style={styles.courseCardChapt}>{item.courseChapters?.length} chapters</Text>
             </View>
           </View>
