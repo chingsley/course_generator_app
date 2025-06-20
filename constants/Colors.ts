@@ -11,6 +11,7 @@ export const colors = {
   MID_GRAY: '#a7b8ca',
   DARK_BLUE: '#0c3457',
   GRAY: '#858585',
-  BG_GRAY: '#f2f2f2'
+  BG_GRAY: '#f2f2f2',
+  LIGHT_GRAY_2: '#ecf0f1',
 
 };

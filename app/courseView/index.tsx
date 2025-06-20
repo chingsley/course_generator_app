@@ -1,15 +1,16 @@
-import { images } from '@/constants/images';
+import Intro from '@/components/CourseView/Intro';
+import { colors } from '@/constants/colors';
 import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 
 const CourseView = () => {
   const { courseParams } = useLocalSearchParams();
   const course = JSON.parse(courseParams as string);
   return (
-    <View>
-      <Image source={images.appIcon} style={styles.bannerImg} />
+    <View style={styles.courseViewScreen}>
+      <Intro course={course} />
     </View>
   );
 };
@@ -17,7 +18,8 @@ const CourseView = () => {
 export default CourseView;
 
 const styles = StyleSheet.create({
-  bannerImg: {
-
+  courseViewScreen: {
+    flex: 1,
+    backgroundColor: colors.WHITE,
   }
 });

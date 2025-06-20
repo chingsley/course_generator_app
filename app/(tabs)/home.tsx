@@ -13,7 +13,6 @@ import { Platform, StyleSheet, View } from 'react-native';
 const Home = () => {
   const { userDetail } = useContext(UserDetailContext);
   const [courseList, setCourseList] = useState<DocumentData[]>([]);
-  console.log('userDetail: ', userDetail);
 
   useEffect(() => {
     userDetail && getCourseList();

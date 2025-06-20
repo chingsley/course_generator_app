@@ -1,0 +1,31 @@
+{
+  "courseChapters": [
+    {
+      "chapterNumber": 1,
+      "chapterSummary": "This chapter introduces the concept of bias in artificial intelligence, specifically focusing on language models. It covers the different types of bias (e.g., gender, racial, socioeconomic) and explains why bias is a critical issue in AI development.",
+      "chapterTopic": "Introduction to Bias in AI"
+    },
+    {
+      "chapterNumber": 2,
+      "chapterSummary": "This chapter explores the various sources of bias in language models. It examines how bias can be introduced through training data, model architecture, and the training process itself. Real-world examples of biased datasets and their impact are discussed.",
+      "chapterTopic": "Sources of Bias in Language Models"
+    },
+    {
+      "chapterNumber": 3,
+      "chapterSummary": "This chapter focuses on techniques for detecting and measuring bias in language models. It introduces different metrics and methods for evaluating bias, such as measuring disparities in model performance across different demographic groups. Practical tools and resources for bias detection are presented.",
+      "chapterTopic": "Detecting and Measuring Bias"
+    },
+    {
+      "chapterNumber": 4,
+      "chapterSummary": "This chapter covers strategies for mitigating bias in language models. It explores techniques such as data augmentation, bias-aware training, and model debiasing. Ethical considerations and best practices for building fair and equitable language models are also discussed.",
+      "chapterTopic": "Mitigating Bias in Language Models"
+    }
+  ],
+  "courseImage": "https://example.com/language_model_bias.png",
+  "courseTitle": "Understanding Bias in Language Models",
+  "createdBy": "bjjhh@gmail.com",
+  "createdOn": {
+    "nanoseconds": 419000000,
+    "seconds": 1748809828
+  }
+}

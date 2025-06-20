@@ -48,9 +48,10 @@ export default {
   `,
   getCourses: (courseTopic: string) => `As skill coaching teacher
   - User wants to learn about the topic: ${courseTopic}
-  - Generate a 4-chapter course TEMPLATE in the FOLLOWING FORMAT
+  - Generate a 3 or 4-chapter course TEMPLATE in the FOLLOWING FORMAT
   {
     courseTitle: '',
+    courseDescription: <no more than 15 words>,
     courseImage: 'generate a url for an image that best describes what the course is about. A free onine image is accpetable.',
     courseChapters: [
       {
