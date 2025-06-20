@@ -24,7 +24,6 @@ const Home = () => {
       "createdBy", "==", userDetail?.email
     ));
     const querySnapshot = await getDocs(q);
-    console.log('userDetails: ', userDetail);
     querySnapshot.forEach((doc) => setCourseList(prev => [...prev, doc.data()]));
   };
 
@@ -33,7 +32,7 @@ const Home = () => {
       flex: 1,
       backgroundColor: colors.WHITE,
       padding: 25,
-      paddingTop: Platform.OS == 'ios' ? 45 : 0,
+      paddingTop: Platform.OS == 'ios' ? 85 : 0,
     }}>
       <Header />
       {

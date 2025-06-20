@@ -64,7 +64,6 @@ const AddCourse = () => {
       const prompt = prompts.getTopics(userInput);
       const aiResponse = await generateAIContent(prompt);
       const topicIdea = JSON.parse(aiResponse.text!);
-      console.log(topicIdea);
       setTopics(topicIdea);
     } catch (error) {
       console.log('\nError: ', error);

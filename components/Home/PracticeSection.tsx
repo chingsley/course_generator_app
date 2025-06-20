@@ -19,7 +19,6 @@ const PracticeIcon = ({ name }: { name: string; }) =>
         null;
 
 const PracticeSection = () => {
-  console.log(practiceOption);
   return (
     <View style={{
       marginTop: 10,

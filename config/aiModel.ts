@@ -11,5 +11,3 @@ export const generateAIContent = (content: string) => ai.models.generateContent(
     responseMimeType: "application/json"
   },
 });
-
-// console.log(response.text);

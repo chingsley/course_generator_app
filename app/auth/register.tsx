@@ -23,7 +23,6 @@ const Register = () => {
     createUserWithEmailAndPassword(auth, email.toLowerCase(), password)
       .then(async resp => {
         const user = resp.user;
-        // console.log(user);
         await SaveUser(user);
       })
       .catch(error => {

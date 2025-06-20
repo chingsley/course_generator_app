@@ -1,10 +1,10 @@
-interface ICourseChapter {
+export interface ICourseChapter {
   chapterNumber: number;
   chapterSummary: string;
   chapterTopic: string;
 }
 
-export default interface ICourse {
+export interface ICourse {
   courseChapters: ICourseChapter[],
   courseImage: string;
   courseTitle: string;
