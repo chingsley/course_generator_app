@@ -7,7 +7,7 @@ import { UserDetail, UserDetailContext } from '@/context/UserDetailContext';
 import { useRouter } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, } from 'react';
 import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from "react-native";
 
 const Login = () => {
@@ -16,16 +16,16 @@ const Login = () => {
   const [email, setEmail] = useState('Bjjhh@gmail.com');
   const [password, setPassword] = useState('123456');
   const [loading, setLoading] = useState(false);
-  const { userDetail, setUserDetail } = useContext(UserDetailContext);
+  const { setUserDetail } = useContext(UserDetailContext);
+
 
   const onLoginClick = () => {
     setLoading(true);
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, email.toLowerCase(), password)
       .then(async resp => {
         const user = resp.user;
-        // console.log(user);
-        setLoading(false);
         await getUserDetail();
+        setLoading(false);
         router.replace('/(tabs)/home');
       }).catch(error => {
         console.log(error);
@@ -34,9 +34,9 @@ const Login = () => {
       });
   };
 
+
   const getUserDetail = async () => {
-    const result = await getDoc(doc(db, 'users', email));
-    // console.log(result.data);
+    const result = await getDoc(doc(db, 'users', email.toLowerCase()));
     setUserDetail(result.data() as UserDetail);
   };
 

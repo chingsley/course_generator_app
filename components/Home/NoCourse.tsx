@@ -7,7 +7,7 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 const NoCourse = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.msg}>It looks like don't have a course yet</Text>
+      <Text style={styles.msg}>It looks like you don't have a course yet</Text>
       <Image source={images.noCourse} style={styles.image1} />
       <View style={{
         width: '100%',

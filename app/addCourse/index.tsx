@@ -33,7 +33,6 @@ const AddCourse = () => {
       const aiResponses = await Promise.all(calls);
       const perTopicArrays = aiResponses.map((resp) => {
         try {
-          // console.log('\n>>>>>>>>>>>>>resp.text: \n', resp.text);
           return JSON.parse(resp.text!);
         } catch (e) {
           console.error("Failed to parse JSON for one topic:", e);
@@ -42,7 +41,6 @@ const AddCourse = () => {
       });
 
       const mergedCourses = perTopicArrays.flat();
-      // console.log("\n>>>>>> All courses merged: ", mergedCourses);
       const writePromises = mergedCourses.map((course) =>
         setDoc(doc(db, 'courses', Date.now().toString()), {
           ...course,

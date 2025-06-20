@@ -13,6 +13,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 const Home = () => {
   const { userDetail } = useContext(UserDetailContext);
   const [courseList, setCourseList] = useState<DocumentData[]>([]);
+  console.log('userDetail: ', userDetail);
 
   useEffect(() => {
     userDetail && getCourseList();
@@ -24,6 +25,7 @@ const Home = () => {
       "createdBy", "==", userDetail?.email
     ));
     const querySnapshot = await getDocs(q);
+    console.log('userDetails: ', userDetail);
     querySnapshot.forEach((doc) => setCourseList(prev => [...prev, doc.data()]));
   };
 

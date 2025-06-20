@@ -20,7 +20,7 @@ const Register = () => {
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
 
   const createNewAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email.toLowerCase(), password)
       .then(async resp => {
         const user = resp.user;
         // console.log(user);
