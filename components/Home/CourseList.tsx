@@ -4,7 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { DocumentData } from 'firebase/firestore';
 import React from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface CourseListProps {
   courseList: DocumentData[];
@@ -14,7 +14,12 @@ const CourseList = ({ courseList }: CourseListProps) => {
   const router = useRouter();
   return (
     <View style={styles.compContainer}>
-      <Text style={styles.compTitle}>CourseList</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.compTitle}>CourseList</Text>
+        <Pressable onPress={() => router.push('/addCourse')} style={styles.btnAddNewCourse}>
+          <Ionicons name="add-circle" size={30} color={colors.PRIMARY_BLUE} />
+        </Pressable>
+      </View>
       <FlatList
         data={courseList}
         horizontal={true}
@@ -43,11 +48,20 @@ export default CourseList;
 
 const styles = StyleSheet.create({
   compContainer: {
-    marginTop: 15,
+    marginTop: 25,
+  },
+  titleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   compTitle: {
     fontFamily: 'roboto-bold',
     fontSize: 25,
+  },
+  btnAddNewCourse: {
+    padding: 10,
   },
   courseCard: {
     padding: 10,

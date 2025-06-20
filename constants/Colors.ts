@@ -13,5 +13,6 @@ export const colors = {
   GRAY: '#858585',
   BG_GRAY: '#f2f2f2',
   LIGHT_GRAY_2: '#ecf0f1',
+  RED: 'red',
 
 };

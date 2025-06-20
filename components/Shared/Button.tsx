@@ -2,53 +2,119 @@
 
 import { colors } from '@/constants/colors';
 import React from 'react';
-import { ActivityIndicator, GestureResponderEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator, GestureResponderEvent,
+  StyleSheet, Text,
+  TextStyle,
+  TouchableOpacity, View
+} from 'react-native';
+
+type BtnStyleType = 'primary' | 'delete' | undefined;
 
 interface ButtonProps {
+  type?: BtnStyleType;
   outline?: true;
   onPress: ((event: GestureResponderEvent) => void) | undefined;
   text: string;
   loading: boolean;
   disabled?: boolean;
 }
-const Button = ({ outline, onPress, text, loading, disabled }: ButtonProps) => {
+const Button = ({ type, outline, onPress, text, loading, disabled }: ButtonProps) => {
+  const btnStyle = getBtnStyle(type, outline);
   return (
     <View>
       <TouchableOpacity
         onPress={onPress}
-        style={[styles.sharedStyle, outline ? styles.btnOutline : styles.btnFilled]}
+        style={btnStyle.btn}
         disabled={loading || disabled}
       >
-        {loading ? <ActivityIndicator size={'small'} color={outline ? colors.PRIMARY_BLUE : colors.WHITE} /> :
-          <Text
-            style={[styles.sharedStyleTxt, {
-              color: outline ? colors.PRIMARY_BLUE : colors.WHITE
-            }]}
-          >{text}</Text>}
+        {
+          loading ?
+            <ActivityIndicator size={'small'} color={btnStyle.actvIndicator.color} />
+            :
+            <Text style={btnStyle.text}>{text}</Text>
+        }
       </TouchableOpacity>
     </View>
   );
 };
 
+const getBtnStyle = (btnType: BtnStyleType, outline?: boolean) => {
+  if (btnType === 'delete' && outline) return btnDeleteOutline;
+  if (btnType === 'delete' && !outline) return btnDeleteFilled;
+  if (btnType === 'primary' && outline) return btnPrimaryOutline;
+  return btnPrimaryFilled;
+};
+
 export default Button;
 
-const styles = StyleSheet.create({
-  sharedStyle: {
-    padding: 17,
-    marginTop: 20,
-    borderRadius: 10,
-  },
-  sharedStyleTxt: {
-    textAlign: 'center',
-    fontSize: 18,
-    fontFamily: 'roboto',
-  },
-  btnFilled: {
+const sharedBtnStyles = {
+  padding: 17,
+  marginTop: 20,
+  borderRadius: 10,
+};
+const sharedTextStyles: TextStyle = {
+  textAlign: 'center',
+  fontSize: 18,
+  fontFamily: 'roboto',
+};
+
+const btnPrimaryFilled = StyleSheet.create({
+  btn: {
+    ...sharedBtnStyles,
     backgroundColor: colors.PRIMARY_BLUE,
   },
-  btnOutline: {
+  text: {
+    ...sharedTextStyles,
+    color: colors.WHITE,
+  },
+  actvIndicator: {
+    color: colors.WHITE,
+  }
+});
+
+const btnPrimaryOutline = StyleSheet.create({
+  btn: {
+    ...sharedBtnStyles,
     backgroundColor: colors.WHITE,
     borderWidth: 1,
     borderColor: colors.PRIMARY_BLUE,
+  },
+  text: {
+    ...sharedTextStyles,
+    color: colors.PRIMARY_BLUE,
+  },
+  actvIndicator: {
+    color: colors.PRIMARY_BLUE,
+  }
+});
+
+const btnDeleteFilled = StyleSheet.create({
+  btn: {
+    ...sharedBtnStyles,
+    backgroundColor: colors.RED,
+  },
+  text: {
+    ...sharedTextStyles,
+    color: colors.WHITE,
+  },
+  actvIndicator: {
+    color: colors.WHITE,
+  }
+});
+
+const btnDeleteOutline = StyleSheet.create({
+  btn: {
+    ...sharedBtnStyles,
+    backgroundColor: colors.WHITE,
+    borderWidth: 1,
+    borderColor: colors.RED,
+  },
+  text: {
+    ...sharedTextStyles,
+    color: colors.RED,
+  },
+  actvIndicator: {
+    color: colors.RED,
   }
 });

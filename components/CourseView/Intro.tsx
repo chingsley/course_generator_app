@@ -23,8 +23,7 @@ const Intro = ({ course }: IntroProps) => {
       <Text style={styles.descr}>{course?.courseDescription}</Text>
       <Button
         text='Start Now'
-        // onPress={() => console.log('testing')}
-        onPress={() => router.push('/addCourse')}
+        onPress={() => router.push('/chapterView')}
         loading={false}
       />
     </View>
