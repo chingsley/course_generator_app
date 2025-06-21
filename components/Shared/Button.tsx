@@ -92,7 +92,7 @@ const btnPrimaryOutline = StyleSheet.create({
 const btnDeleteFilled = StyleSheet.create({
   btn: {
     ...sharedBtnStyles,
-    backgroundColor: colors.RED,
+    backgroundColor: colors.PRIMARY_RED,
   },
   text: {
     ...sharedTextStyles,
@@ -108,13 +108,13 @@ const btnDeleteOutline = StyleSheet.create({
     ...sharedBtnStyles,
     backgroundColor: colors.WHITE,
     borderWidth: 1,
-    borderColor: colors.RED,
+    borderColor: colors.PRIMARY_RED,
   },
   text: {
     ...sharedTextStyles,
-    color: colors.RED,
+    color: colors.PRIMARY_RED,
   },
   actvIndicator: {
-    color: colors.RED,
+    color: colors.PRIMARY_RED,
   }
 });

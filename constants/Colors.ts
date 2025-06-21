@@ -1,7 +1,5 @@
 export const colors = {
   WHITE: '#ffffff',
-  // PRIMARY_BLACK: '#062033',
-  // PRIMARY_RED: '#ca3413',
   // PRIMARY_GRAY: '#d1d2e1',
   // SECONDARY_GRAY: '#82879a',
   // DARK_BLUE: '#305385',
@@ -13,6 +11,7 @@ export const colors = {
   GRAY: '#858585',
   BG_GRAY: '#f2f2f2',
   LIGHT_GRAY_2: '#ecf0f1',
-  RED: 'red',
-
+  PRIMARY_RED: '#ca3413',
+  PRIMARY_BLACK: '#062033',
+  PRIMARY_BLACK2: '#0f0f0f',
 };

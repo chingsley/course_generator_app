@@ -1,24 +1,30 @@
 // contexts/CourseContext.tsx
 import { db } from '@/config/firebaseConfig';
+import { ICourse } from '@/types/course';
 import { collection, deleteDoc, doc, DocumentData, getDocs, query, where } from 'firebase/firestore';
 import React, { createContext, useContext, useState } from 'react';
 
 interface CourseContextType {
   courseList: any[];
+  selectedCourse: ICourse | null;
   getCourseList: (email: string) => Promise<void>;
   deleteCourse: (courseId: string) => Promise<void>;
+  setSelectedCourse: React.Dispatch<React.SetStateAction<ICourse | null>>;
 }
 
 const CourseContext = createContext<CourseContextType>({
   courseList: [],
   getCourseList: async () => { },
   deleteCourse: async () => { },
+  selectedCourse: null,
+  setSelectedCourse: () => { }
 });
 
 export const useCourseContext = () => useContext(CourseContext);
 
 export const CourseProvider = ({ children }: { children: React.ReactNode; }) => {
   const [courseList, setCourseList] = useState<DocumentData[]>([]);
+  const [selectedCourse, setSelectedCourse] = useState<ICourse | null>(null);
 
   const getCourseList = async (email: string) => {
     setCourseList([]);
@@ -45,7 +51,13 @@ export const CourseProvider = ({ children }: { children: React.ReactNode; }) => 
   };
 
   return (
-    <CourseContext.Provider value={{ courseList, getCourseList, deleteCourse }}>
+    <CourseContext.Provider value={{
+      courseList,
+      selectedCourse, // not in use for now
+      getCourseList,
+      deleteCourse,
+      setSelectedCourse, // not in use for now
+    }}>
       {children}
     </CourseContext.Provider>
   );

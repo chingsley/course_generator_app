@@ -5,8 +5,8 @@ import { db } from '../../config/firebaseConfig';
 
 import Button from '@/components/Shared/Button';
 import { colors } from '@/constants/colors';
-import prompts from '@/constants/prompts';
 import { UserDetailContext } from '@/context/UserDetailContext';
+import prompts from '@/prompts';
 import { useRouter } from 'expo-router';
 import React, { useContext, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -27,7 +27,7 @@ const AddCourse = () => {
 
     try {
       const calls = selectedTopics.map((topic) => {
-        const singlePrompt = prompts.getCourses(topic);
+        const singlePrompt = prompts.getCourse(topic);
         return generateAIContent(singlePrompt);
       });
 
