@@ -15,7 +15,7 @@ const CourseList = ({ courseList }: CourseListProps) => {
   return (
     <View style={styles.compContainer}>
       <View style={styles.titleContainer}>
-        <Text style={styles.compTitle}>CourseList</Text>
+        <Text style={styles.compTitle}>Course List ({courseList.length})</Text>
         <Pressable onPress={() => router.push('/addCourse')} style={styles.btnAddNewCourse}>
           <Ionicons name="add-circle" size={30} color={colors.PRIMARY_BLUE} />
         </Pressable>
@@ -28,7 +28,7 @@ const CourseList = ({ courseList }: CourseListProps) => {
           <TouchableOpacity key={index} style={styles.courseCard} onPress={() => router.push({
             pathname: '/courseView',
             params: {
-              courseParams: JSON.stringify(item)
+              courseParams: JSON.stringify(item),
             }
           })}>
             <Image source={images.appIcon} style={styles.courseCardImg} />
@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
   courseCardImg: {
     width: '100%',
     height: 150,
-    // borderRadius: 15,
   },
   courseCardTitle: {
     fontFamily: 'roboto-bold',

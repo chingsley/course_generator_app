@@ -21,11 +21,13 @@
       "chapterTopic": "Mitigating Bias in Language Models"
     }
   ],
+  "courseDescription": "Explore types, sources, and impacts of bias in language models and mitigation approaches.",
   "courseImage": "https://example.com/language_model_bias.png",
   "courseTitle": "Understanding Bias in Language Models",
   "createdBy": "bjjhh@gmail.com",
   "createdOn": {
     "nanoseconds": 419000000,
     "seconds": 1748809828
-  }
+  },
+  "id": "1748809828419"
 }

@@ -3,29 +3,20 @@ import CourseProgress from '@/components/Home/CourseProgress';
 import Header from '@/components/Home/Header';
 import NoCourse from '@/components/Home/NoCourse';
 import PracticeSection from '@/components/Home/PracticeSection';
-import { db } from '@/config/firebaseConfig';
 import { colors } from '@/constants/colors';
+import { useCourseContext } from '@/context/CoursesContext';
 import { UserDetailContext } from '@/context/UserDetailContext';
-import { collection, DocumentData, getDocs, query, where } from 'firebase/firestore';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 
 const Home = () => {
   const { userDetail } = useContext(UserDetailContext);
-  const [courseList, setCourseList] = useState<DocumentData[]>([]);
+  const { courseList, getCourseList, deleteCourse } = useCourseContext();
 
   useEffect(() => {
-    userDetail && getCourseList();
+    userDetail && getCourseList(userDetail?.email);
   }, [userDetail]);
 
-  const getCourseList = async () => {
-    setCourseList([]); // prevents duplicate redering on every save
-    const q = query(collection(db, 'courses'), where(
-      "createdBy", "==", userDetail?.email
-    ));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => setCourseList(prev => [...prev, doc.data()]));
-  };
 
   return (
     <View style={{

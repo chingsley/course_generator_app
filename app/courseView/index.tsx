@@ -1,5 +1,6 @@
 import Chapters from '@/components/CourseView/Chapters';
 import Intro from '@/components/CourseView/Intro';
+import Button from '@/components/Shared/Button';
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -12,6 +13,7 @@ const CourseView = () => {
   const router = useRouter();
   const { courseParams } = useLocalSearchParams();
   const course = JSON.parse(courseParams as string);
+
   return (
     <FlatList
       style={styles.flatListWrapper}
@@ -25,6 +27,18 @@ const CourseView = () => {
           <View style={styles.courseContentBox}>
             <Intro course={course} />
             <Chapters chapters={course.courseChapters} />
+            <Button
+              type='delete'
+              text='Delete this course'
+              onPress={() => router.push({
+                pathname: '/confirmDelete',
+                params: {
+                  courseId: course.id,
+                }
+              })}
+              loading={false}
+              outline
+            />
           </View>
           <Pressable style={styles.backArrow} onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={34} color="black" />

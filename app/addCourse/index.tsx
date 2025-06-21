@@ -15,14 +15,15 @@ import { generateAIContent } from '../../config/aiModel';
 
 const AddCourse = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loadingTopics, setLoadingTopics] = useState(false);
+  const [loadingCourseGeneration, setLoadingCourseGeneration] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [topics, setTopics] = useState([]);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const { userDetail } = useContext(UserDetailContext);
 
   const onCourseGenerate = async () => {
-    setLoading(true);
+    setLoadingCourseGeneration(true);
 
     try {
       const calls = selectedTopics.map((topic) => {
@@ -51,15 +52,16 @@ const AddCourse = () => {
       );
       await Promise.all(writePromises);
       router.push('/(tabs)/home');
-      setLoading(false);
+      setLoadingCourseGeneration(false);
     } catch (error) {
       console.log("\n>>>>>> Error generating courses:", error);
-      setLoading(false);
+      setLoadingCourseGeneration(false);
     }
   };
 
   const onTopicGenerate = async () => {
-    setLoading(true);
+    setLoadingTopics(true);
+    setSelectedTopics([]);
     try {
       const prompt = prompts.getTopics(userInput);
       const aiResponse = await generateAIContent(prompt);
@@ -68,7 +70,7 @@ const AddCourse = () => {
     } catch (error) {
       console.log('\nError: ', error);
     }
-    setLoading(false);
+    setLoadingTopics(false);
   };
 
   const onTopicSelect = (clickedTopic: string) => {
@@ -99,12 +101,12 @@ const AddCourse = () => {
       <Button
         text={'Generate Topic'}
         onPress={onTopicGenerate}
-        loading={loading}
-        disabled={!userInput}
+        loading={loadingTopics}
+        disabled={!userInput || loadingCourseGeneration}
       />
 
       <View style={styles.outputContainer}>
-        <Text style={styles.courseSelectionPrompt}>Choose your preferred topics</Text>
+        {topics.length > 0 && <Text style={styles.courseSelectionPrompt}>Choose your preferred topics</Text>}
         <View style={styles.itemsContainer}>
           {topics.map((item, idx) => (
             <Pressable key={idx} onPress={() => onTopicSelect(item)}>
@@ -120,7 +122,8 @@ const AddCourse = () => {
       {selectedTopics.length > 0 && <Button
         text={'Generate Selected Courses'}
         onPress={onCourseGenerate}
-        loading={loading}
+        loading={loadingCourseGeneration}
+        disabled={loadingTopics}
       />}
     </View>
   );

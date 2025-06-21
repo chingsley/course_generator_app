@@ -1,4 +1,5 @@
 // app/_layout.tsx
+import { CourseProvider } from '@/context/CoursesContext';
 import { UserDetail, UserDetailContext, UserDetailContextType } from '@/context/UserDetailContext';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -23,14 +24,15 @@ export default function RootLayout() {
 
   return (
     <UserDetailContext.Provider value={contextValue}>
-
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        />
-      </GestureHandlerRootView>
+      <CourseProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          />
+        </GestureHandlerRootView>
+      </CourseProvider>
     </UserDetailContext.Provider>
   );
 }

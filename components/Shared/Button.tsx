@@ -12,11 +12,11 @@ import {
 type BtnStyleType = 'primary' | 'delete' | undefined;
 
 interface ButtonProps {
+  text: string;
+  onPress: ((event: GestureResponderEvent) => void) | undefined;
+  loading?: boolean;
   type?: BtnStyleType;
   outline?: true;
-  onPress: ((event: GestureResponderEvent) => void) | undefined;
-  text: string;
-  loading: boolean;
   disabled?: boolean;
 }
 const Button = ({ type, outline, onPress, text, loading, disabled }: ButtonProps) => {
