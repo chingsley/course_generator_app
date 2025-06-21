@@ -5,6 +5,7 @@ export interface ICourseChapter {
 }
 
 export interface ICourse {
+  id: string;
   courseChapters: ICourseChapter[],
   courseImage: string;
   courseTitle: string;

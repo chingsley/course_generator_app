@@ -6,12 +6,13 @@ import PracticeSection from '@/components/Home/PracticeSection';
 import { colors } from '@/constants/colors';
 import { useCourseContext } from '@/context/CoursesContext';
 import { UserDetailContext } from '@/context/UserDetailContext';
+import { sortCoursesByDate } from '@/utils/dateTime';
 import React, { useContext, useEffect } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 
 const Home = () => {
   const { userDetail } = useContext(UserDetailContext);
-  const { courseList, getCourseList, deleteCourse } = useCourseContext();
+  const { courseList, getCourseList } = useCourseContext();
 
   useEffect(() => {
     userDetail && getCourseList(userDetail?.email);
@@ -32,7 +33,7 @@ const Home = () => {
           <View>
             <CourseProgress courseList={courseList} />
             <PracticeSection />
-            <CourseList courseList={courseList} />
+            <CourseList courseList={sortCoursesByDate(courseList)} />
           </View>
       }
     </View>

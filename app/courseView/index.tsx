@@ -67,8 +67,9 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   courseContentBox: {
-    padding: 10,
     marginTop: -90,
+    padding: 10,
+    paddingTop: 20,
     backgroundColor: colors.WHITE,
   },
   backArrow: {
