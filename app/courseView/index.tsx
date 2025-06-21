@@ -6,7 +6,7 @@ import { images } from '@/constants/images';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, Image, Pressable, StyleSheet, View } from 'react-native';
+import { FlatList, Image, Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
 
 
 const CourseView = () => {
@@ -15,37 +15,39 @@ const CourseView = () => {
   const course = JSON.parse(courseParams as string);
 
   return (
-    <FlatList
-      style={styles.flatListWrapper}
-      data={[]}
-      renderItem={() => <></>}
-      ListHeaderComponent={ // this will make the chapters list scrollable. We  cannot use srollview to achieve this because the Chapters component contains a FlatList compoent, and we shouldn't wrap a FlatList component in a ScrollView
-        <View style={styles.courseViewScreen}>
-          <View style={styles.imgBox}>
-            <Image source={images.practiceSection} style={styles.bannerImg} />
+    <SafeAreaView>
+      <FlatList
+        style={styles.flatListWrapper}
+        data={[]}
+        renderItem={() => <></>}
+        ListHeaderComponent={ // this will make the chapters list scrollable. We  cannot use srollview to achieve this because the Chapters component contains a FlatList compoent, and we shouldn't wrap a FlatList component in a ScrollView
+          <View style={styles.courseViewScreen}>
+            <View style={styles.imgBox}>
+              <Image source={images.practiceSection} style={styles.bannerImg} />
+            </View>
+            <View style={styles.courseContentBox}>
+              <Intro course={course} />
+              <Chapters course={course} />
+              <Button
+                type='delete'
+                text='Delete this course'
+                onPress={() => router.push({
+                  pathname: '/confirmDelete',
+                  params: {
+                    courseId: course.id,
+                  }
+                })}
+                loading={false}
+                outline
+              />
+            </View>
+            <Pressable style={styles.backArrow} onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={34} color="black" />
+            </Pressable>
           </View>
-          <View style={styles.courseContentBox}>
-            <Intro course={course} />
-            <Chapters chapters={course.courseChapters} />
-            <Button
-              type='delete'
-              text='Delete this course'
-              onPress={() => router.push({
-                pathname: '/confirmDelete',
-                params: {
-                  courseId: course.id,
-                }
-              })}
-              loading={false}
-              outline
-            />
-          </View>
-          <Pressable style={styles.backArrow} onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={34} color="black" />
-          </Pressable>
-        </View>
-      }
-    />
+        }
+      />
+    </SafeAreaView>
   );
 };
 
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
   },
   backArrow: {
     position: 'absolute',
-    top: 45,
+    top: 1,
     left: 1,
     padding: 20,
   },

@@ -1,27 +1,36 @@
 import { colors } from '@/constants/colors';
-import { ICourseChapter } from '@/types/course';
+import { ICourse } from '@/types/course';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
-interface IChapters {
-  chapters: ICourseChapter[];
+interface IChaptersProps {
+  course: ICourse;
 }
-const Chapters = ({ chapters }: IChapters) => {
+const Chapters = ({ course, }: IChaptersProps) => {
+  const router = useRouter();
+
   return (
     <View style={styles.chptBox}>
       <Text style={styles.chptTitle}>Chapters</Text>
       <FlatList
-        data={chapters}
-        renderItem={({ item, index }) => (
-          <View style={styles.chptContentBox}>
+        data={course.courseChapters}
+        renderItem={({ item: chapterItem, index }) => (
+          <TouchableOpacity style={styles.chptContentBox} onPress={() => router.push({
+            pathname: '/chapterView',
+            params: {
+              chapterNumber: chapterItem.chapterNumber,
+              course: JSON.stringify(course)
+            },
+          })}>
             <View style={styles.chptTextBox}>
-              <Text style={styles.chptText}>{item.chapterNumber}.</Text>
-              <Text style={styles.chptText} numberOfLines={2}>{item.chapterTopic}</Text>
+              <Text style={styles.chptText}>{chapterItem.chapterNumber}.</Text>
+              <Text style={styles.chptText} numberOfLines={2}>{chapterItem.chapterTopic}</Text>
             </View>
             <Ionicons name="play" size={24} color={colors.PRIMARY_BLUE} />
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -57,7 +66,6 @@ const styles = StyleSheet.create({
   chptText: {
     fontFamily: 'roboto',
     fontSize: 20,
-    // borderWidth: 1,
     maxWidth: 300,
   },
 });

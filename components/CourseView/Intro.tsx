@@ -16,7 +16,7 @@ const Intro = ({ course }: IntroProps) => {
     <View>
       <Text style={styles.courseTitle}>{course?.courseTitle}</Text>
       <View style={styles.chaptContainer}>
-        <Ionicons name="book-outline" size={20} color={'black'} />
+        <Ionicons name="book-outline" size={20} color={colors.PRIMARY_BLUE} />
         <Text style={styles.courseCardChapt}>{course.courseChapters?.length} chapters</Text>
       </View>
       <Text style={styles.descrTitle}>Description: </Text>
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   courseCardChapt: {
     fontFamily: 'roboto',
     fontSize: 18,
+    color: colors.PRIMARY_BLUE,
   },
   descrTitle: {
     fontFamily: 'roboto-bold',
