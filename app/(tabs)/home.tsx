@@ -4,7 +4,7 @@ import Header from '@/components/Home/Header';
 import NoCourse from '@/components/Home/NoCourse';
 import PracticeSection from '@/components/Home/PracticeSection';
 import { colors } from '@/constants/colors';
-import { useCourseContext } from '@/context/CoursesContext';
+import { useCoursesContext } from '@/context/CoursesContext';
 import { UserDetailContext } from '@/context/UserDetailContext';
 import { sortCoursesByDate } from '@/utils/dateTime';
 import React, { useContext, useEffect } from 'react';
@@ -12,7 +12,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 
 const Home = () => {
   const { userDetail } = useContext(UserDetailContext);
-  const { courseList, getCourseList } = useCourseContext();
+  const { courseList, getCourseList } = useCoursesContext();
 
   useEffect(() => {
     userDetail && getCourseList(userDetail?.email);

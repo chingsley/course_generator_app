@@ -42,6 +42,7 @@ const AddCourse = () => {
       });
 
       const mergedCourses = perTopicArrays.flat();
+      console.log(perTopicArrays, '\n- - - - - - - \n', mergedCourses);
       const writePromises = mergedCourses.map((course) =>
         setDoc(doc(db, 'courses', Date.now().toString()), {
           ...course,

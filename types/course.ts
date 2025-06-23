@@ -1,7 +1,10 @@
+import { FieldValue } from "firebase/firestore";
+
 export interface ICourseChapter {
   chapterNumber: number;
   chapterSummary: string;
   chapterTopic: string;
+  completedAt?: FieldValue;
 }
 
 export interface ICourse {

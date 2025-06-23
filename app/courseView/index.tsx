@@ -3,16 +3,17 @@ import Intro from '@/components/CourseView/Intro';
 import Button from '@/components/Shared/Button';
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
+import { useCoursesContext } from '@/context/CoursesContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, Image, Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
 
 
 const CourseView = () => {
   const router = useRouter();
-  const { courseParams } = useLocalSearchParams();
-  const course = JSON.parse(courseParams as string);
+  const { selectedCourse } = useCoursesContext();
+  const course = selectedCourse!;
 
   return (
     <SafeAreaView>

@@ -1,5 +1,5 @@
 // app/_layout.tsx
-import { CourseProvider } from '@/context/CoursesContext';
+import { CoursesProvider } from '@/context/CoursesContext';
 import { UserDetail, UserDetailContext, UserDetailContextType } from '@/context/UserDetailContext';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -24,7 +24,7 @@ export default function RootLayout() {
 
   return (
     <UserDetailContext.Provider value={contextValue}>
-      <CourseProvider>
+      <CoursesProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Stack
             screenOptions={{
@@ -32,7 +32,7 @@ export default function RootLayout() {
             }}
           />
         </GestureHandlerRootView>
-      </CourseProvider>
+      </CoursesProvider>
     </UserDetailContext.Provider>
   );
 }

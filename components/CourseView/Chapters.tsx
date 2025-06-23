@@ -22,14 +22,15 @@ const Chapters = ({ course, }: IChaptersProps) => {
             pathname: '/chapterView',
             params: {
               chapterNumber: chapterItem.chapterNumber,
-              course: JSON.stringify(course)
             },
           })}>
             <View style={styles.chptTextBox}>
               <Text style={styles.chptText}>{chapterItem.chapterNumber}.</Text>
               <Text style={styles.chptText} numberOfLines={2}>{chapterItem.chapterTopic}</Text>
             </View>
-            <Ionicons name="play" size={24} color={colors.PRIMARY_BLUE} />
+            {chapterItem.completedAt ?
+              <Ionicons name="checkmark-circle-outline" size={24} color="green" /> :
+              <Ionicons name="play" size={24} color={colors.PRIMARY_BLUE} />}
           </TouchableOpacity>
         )}
       />

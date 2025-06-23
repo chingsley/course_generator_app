@@ -1,5 +1,7 @@
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
+import { useCoursesContext } from '@/context/CoursesContext';
+import { ICourse } from '@/types/course';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { DocumentData } from 'firebase/firestore';
@@ -10,8 +12,16 @@ interface CourseListProps {
   courseList: DocumentData[];
 }
 
+
 const CourseList = ({ courseList }: CourseListProps) => {
   const router = useRouter();
+  const { setSelectedCourse } = useCoursesContext();
+
+  const goToCourseView = (course: ICourse) => {
+    setSelectedCourse(course);
+    router.push('/courseView');
+  };
+
   return (
     <View style={styles.compContainer}>
       <View style={styles.titleContainer}>
@@ -25,12 +35,7 @@ const CourseList = ({ courseList }: CourseListProps) => {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity key={index} style={styles.courseCard} onPress={() => router.push({
-            pathname: '/courseView',
-            params: {
-              courseParams: JSON.stringify(item),
-            }
-          })}>
+          <TouchableOpacity key={index} style={styles.courseCard} onPress={() => goToCourseView(item as ICourse)}>
             <Image source={images.appIcon} style={styles.courseCardImg} />
             <Text style={styles.courseCardTitle}>{item.courseTitle}</Text>
             <View style={styles.chaptContainer}>

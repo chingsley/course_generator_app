@@ -7,26 +7,29 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+
 import * as Progress from 'react-native-progress';
 
-import sampleChapter from '@/sample/chapter.sample.json';
+import { useCoursesContext } from '@/context/CoursesContext';
+// import sampleChapter from '@/sample/chapter.sample.json';
 
 const ChapterVeiw = () => {
   const router = useRouter();
   const { chapterNumber: chpStr, course: courseStr } = useLocalSearchParams();
-  const course = JSON.parse(courseStr as string) as ICourse;
+  const [chapterCompleteLoading, setChapterCompleteLoading] = useState(false);
   const chapterNumber = Number(chpStr);
-  const chapter = course.courseChapters.find((c => c.chapterNumber === chapterNumber))!;
-  // const [chapterContent, setChapterContent] = useState<any>(null);
-  const [chapterContent, setChapterContent] = useState<any>(sampleChapter);
+  const [chapterContent, setChapterContent] = useState<any>(null);
+  // const [chapterContent, setChapterContent] = useState<any>(sampleChapter); // testing
   const [error, setError] = useState<string | null>(null);
+  const { completeChapter, selectedCourse: course } = useCoursesContext();
+  const chapter = course!.courseChapters.find((c => c.chapterNumber === chapterNumber))!;
 
 
   const generateChapter = async () => {
     try {
       setError(null);
       setChapterContent(null);
-      const prompt = prompts.getChapter(chapterNumber, course);
+      const prompt = prompts.getChapter(chapterNumber, course as ICourse);
       const aiResponse = await generateAIContent(prompt, 0);
       const parsedResponse = JSON.parse(aiResponse.text!);
       setChapterContent(parsedResponse);
@@ -36,8 +39,17 @@ const ChapterVeiw = () => {
     }
   };
 
+  const markChapterAsComplete = async (chpNum: number) => {
+    setChapterCompleteLoading(true);
+    await completeChapter(course!.id, chpNum);
+    setChapterCompleteLoading(false);
+
+  };
+
+
+
   useEffect(() => {
-    // generateChapter();
+    generateChapter();
   }, []);
 
   if (error) {
@@ -68,13 +80,13 @@ const ChapterVeiw = () => {
         </Pressable>
         <View style={styles.progressContainer}>
           <Progress.Bar
-            progress={chapterNumber / course.courseChapters.length}
+            progress={chapterNumber / course!.courseChapters.length}
             width={null}
             color={colors.PRIMARY_BLUE}
             style={styles.progressBar}
           />
         </View>
-        <Text style={styles.courseTitle}>{course.courseTitle}</Text>
+        <Text style={styles.courseTitle}>{course!.courseTitle}</Text>
       </View>
 
       <FlatList
@@ -103,6 +115,14 @@ const ChapterVeiw = () => {
 
             <Text style={styles.heading2}>Conclusion</Text>
             <Text style={styles.text2}>{chapterContent.conclusion}</Text>
+            <View style={styles.btnFinishContainer}>
+              <Button
+                text={chapter.completedAt ? 'Completed' : 'Finish'}
+                disabled={!!chapter.completedAt}
+                onPress={() => markChapterAsComplete(chapterNumber)}
+                loading={chapterCompleteLoading}
+              />
+            </View>
           </View>
         }
       />
@@ -118,7 +138,8 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 10,
     zIndex: 10,
-    // borderWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.LIGHT_GRAY,
   },
   screenContainer: {
     padding: 25,
@@ -187,4 +208,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
+  btnFinishContainer: {
+    // borderWidth: 1,
+    marginVertical: 20,
+    paddingBottom: 20,
+  }
 });
