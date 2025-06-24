@@ -7,36 +7,59 @@ import { colors } from '@/constants/colors';
 import { useCoursesContext } from '@/context/CoursesContext';
 import { UserDetailContext } from '@/context/UserDetailContext';
 import { sortCoursesByDate } from '@/utils/dateTime';
-import React, { useContext, useEffect } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { FlatList, Platform, RefreshControl, StyleSheet, View } from 'react-native';
 
 const Home = () => {
   const { userDetail } = useContext(UserDetailContext);
   const { courseList, getCourseList } = useCoursesContext();
+  const [loadingRefresh, setLoadingRefresh] = useState(false);
 
   useEffect(() => {
     userDetail && getCourseList(userDetail?.email);
   }, [userDetail]);
 
+  const hanldeRefresh = async () => {
+    setLoadingRefresh(true);
+    userDetail && await getCourseList(userDetail?.email);
+    setLoadingRefresh(false);
+  };
+
 
   return (
-    <View style={{
-      flex: 1,
-      backgroundColor: colors.WHITE,
-      padding: 25,
-      paddingTop: Platform.OS == 'ios' ? 85 : 0,
-    }}>
-      <Header />
-      {
-        courseList.length === 0 ?
-          <NoCourse /> :
-          <View>
-            <CourseProgress courseList={courseList} />
-            <PracticeSection />
-            <CourseList courseList={sortCoursesByDate(courseList)} />
-          </View>
+    <FlatList
+      data={[]}
+      renderItem={() => null}
+      refreshControl={
+        <RefreshControl
+          refreshing={loadingRefresh}
+          onRefresh={hanldeRefresh}
+          tintColor={colors.PRIMARY_BLUE}
+          progressViewOffset={Platform.OS === 'ios' ? 100 : 50}
+          style={{ zIndex: 100 }}
+        />
       }
-    </View>
+      style={{ flex: 1, backgroundColor: colors.WHITE }}
+      ListHeaderComponent={
+        <View style={{
+          flex: 1,
+          backgroundColor: colors.WHITE,
+          padding: 25,
+          paddingTop: Platform.OS == 'ios' ? 100 : 20,
+        }}>
+          <Header />
+          {
+            !loadingRefresh && courseList.length === 0 ?
+              <NoCourse /> :
+              <View>
+                <CourseProgress courseList={courseList} />
+                <PracticeSection />
+                <CourseList courseList={sortCoursesByDate(courseList)} />
+              </View>
+          }
+        </View>
+      }
+    />
   );
 };
 
