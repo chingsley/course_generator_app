@@ -1,19 +1,48 @@
 import Chapters from '@/components/CourseView/Chapters';
 import Intro from '@/components/CourseView/Intro';
 import Button from '@/components/Shared/Button';
+import { db } from '@/config/firebaseConfig';
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
 import { useCoursesContext } from '@/context/CoursesContext';
+import { ICourse } from '@/types/course';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useRouter } from 'expo-router';
-import React from 'react';
-import { FlatList, Image, Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { doc, getDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 
 const CourseView = () => {
   const router = useRouter();
+  const { courseId } = useLocalSearchParams();
+  const [course, setCourse] = useState<ICourse | null>(null);
   const { selectedCourse } = useCoursesContext();
-  const course = selectedCourse!;
+
+  const getCourseById = async () => {
+    const docRef = await getDoc(doc(db, 'courses', courseId as string));
+    setCourse(docRef.data() as ICourse);
+  };
+
+
+  useEffect(() => {
+    if (selectedCourse) {
+      setCourse(selectedCourse);
+    } else {
+      getCourseById();
+    }
+  }, [courseId]);
+
+
+  if (!course) {
+    return (
+      <View style={styles.actIndicatorContainer}>
+        <Text>
+          <ActivityIndicator size={'small'} color={colors.PRIMARY_BLUE} />;
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView>
@@ -80,5 +109,12 @@ const styles = StyleSheet.create({
     top: 1,
     left: 1,
     padding: 20,
+  },
+  actIndicatorContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    height: '100%'
   },
 });

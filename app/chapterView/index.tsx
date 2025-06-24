@@ -11,6 +11,7 @@ import { ActivityIndicator, FlatList, Pressable, SafeAreaView, StyleSheet, Text,
 import * as Progress from 'react-native-progress';
 
 import { useCoursesContext } from '@/context/CoursesContext';
+import { GenerateContentResponse } from '@google/genai';
 // import sampleChapter from '@/sample/chapter.sample.json';
 
 const ChapterVeiw = () => {
@@ -26,16 +27,16 @@ const ChapterVeiw = () => {
 
 
   const generateChapter = async () => {
+    let aiResponse: GenerateContentResponse | null = null;
     try {
       setError(null);
       setChapterContent(null);
       const prompt = prompts.getChapter(chapterNumber, course as ICourse);
-      const aiResponse = await generateAIContent(prompt, 0);
-      console.log('aiResponse', aiResponse);
+      aiResponse = await generateAIContent(prompt, 0);
       const parsedResponse = JSON.parse(aiResponse.text!);
       setChapterContent(parsedResponse);
     } catch (error) {
-      console.error('\n generateChapter: ', error);
+      console.error('\n generateChapter: ', error, aiResponse);
       setError('Failed to generate chapter content. Please try again.');
     }
   };

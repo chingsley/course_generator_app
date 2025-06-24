@@ -19,7 +19,7 @@ const CourseList = ({ courseList }: CourseListProps) => {
 
   const goToCourseView = (course: ICourse) => {
     setSelectedCourse(course);
-    router.push('/courseView');
+    router.push(`/courseView/${course.id}`);
   };
 
   return (
