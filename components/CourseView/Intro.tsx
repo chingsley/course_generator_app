@@ -11,6 +11,7 @@ interface IntroProps {
 }
 
 const Intro = ({ course }: IntroProps) => {
+  const completedChaptersCount = course.courseChapters.filter(ch => !!ch.completedAt).length;
   const router = useRouter();
   return (
     <View>
@@ -22,8 +23,13 @@ const Intro = ({ course }: IntroProps) => {
       <Text style={styles.descrTitle}>Description: </Text>
       <Text style={styles.descr}>{course?.courseDescription}</Text>
       <Button
-        text='Start Now'
-        onPress={() => router.push('/chapterView')}
+        text={completedChaptersCount === 0 ? 'Start Now' : 'Contine'}
+        onPress={() => router.push({
+          pathname: '/chapterView',
+          params: {
+            chapterNumber: completedChaptersCount + 1,
+          },
+        })}
         loading={false}
       />
     </View>

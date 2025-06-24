@@ -28,7 +28,7 @@ const Login = () => {
         setLoading(false);
         router.replace('/(tabs)/home');
       }).catch(error => {
-        console.log(error);
+        console.error('\n onLoginClick: ', error);
         setLoading(false);
         ToastAndroid.show('Incorrect email or password', ToastAndroid.BOTTOM);
       });

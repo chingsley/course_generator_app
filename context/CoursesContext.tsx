@@ -1,7 +1,7 @@
 // contexts/CoursesContext.tsx
 import { db } from '@/config/firebaseConfig';
-import { ICourse, ICourseChapter } from '@/types/course';
-import { collection, deleteDoc, doc, DocumentData, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
+import { ICourse } from '@/types/course';
+import { collection, deleteDoc, doc, DocumentData, getDocs, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import React, { createContext, useContext, useState } from 'react';
 
 interface CoursesContextType {
@@ -59,25 +59,26 @@ export const CoursesProvider = ({ children }: { children: React.ReactNode; }) =>
     try {
       const courseRef = doc(db, 'courses', courseID);
       const chapterIndex = chapterNumber - 1;
-      const completedAt = serverTimestamp();
+      const courseChapters = [...selectedCourse.courseChapters];
+
+      courseChapters[chapterIndex] = {
+        ...courseChapters[chapterIndex],
+        completedAt: Timestamp.now(),
+      };
 
       await updateDoc(courseRef, {
-        // Only set if it doesn't exist
-        [`courseChapters.${chapterIndex}.completedAt`]: completedAt
+        courseChapters: courseChapters
       });
-      const updatedCourse = ({
+
+      const updatedCourse = {
         ...selectedCourse,
-        courseChapters: selectedCourse.courseChapters.map((ch: ICourseChapter) => {
-          if (ch.chapterNumber === chapterNumber) {
-            return { ...ch, completedAt, };
-          }
-          return ch;
-        })
-      });
+        courseChapters: courseChapters
+      };
+
       setSelectedCourse(updatedCourse);
-      setCourseList(prev => prev.map(course => {
-        return course.id === courseID ? updatedCourse : course;
-      }));
+      setCourseList(prev => prev.map(course =>
+        course.id === courseID ? updatedCourse : course
+      ));
     } catch (error) {
       console.error("Error completing chapter:", error);
       throw error;

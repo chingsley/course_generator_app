@@ -26,7 +26,7 @@ const Register = () => {
         await SaveUser(user);
       })
       .catch(error => {
-        console.log(error.message);
+        console.error('\ncreateNewAccount: ', error.message);
       });
   };
 

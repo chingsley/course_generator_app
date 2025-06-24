@@ -31,10 +31,11 @@ const ChapterVeiw = () => {
       setChapterContent(null);
       const prompt = prompts.getChapter(chapterNumber, course as ICourse);
       const aiResponse = await generateAIContent(prompt, 0);
+      console.log('aiResponse', aiResponse);
       const parsedResponse = JSON.parse(aiResponse.text!);
       setChapterContent(parsedResponse);
     } catch (error) {
-      console.log('ChapterView/index: ', error);
+      console.error('\n generateChapter: ', error);
       setError('Failed to generate chapter content. Please try again.');
     }
   };
@@ -43,7 +44,6 @@ const ChapterVeiw = () => {
     setChapterCompleteLoading(true);
     await completeChapter(course!.id, chpNum);
     setChapterCompleteLoading(false);
-
   };
 
 

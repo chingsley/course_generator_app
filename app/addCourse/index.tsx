@@ -42,7 +42,6 @@ const AddCourse = () => {
       });
 
       const mergedCourses = perTopicArrays.flat();
-      console.log(perTopicArrays, '\n- - - - - - - \n', mergedCourses);
       const writePromises = mergedCourses.map((course) =>
         setDoc(doc(db, 'courses', Date.now().toString()), {
           ...course,
@@ -55,7 +54,7 @@ const AddCourse = () => {
       router.push('/(tabs)/home');
       setLoadingCourseGeneration(false);
     } catch (error) {
-      console.log("\n>>>>>> Error generating courses:", error);
+      console.error("\nonCourseGenerate:", error);
       setLoadingCourseGeneration(false);
     }
   };
@@ -69,7 +68,7 @@ const AddCourse = () => {
       const topicIdea = JSON.parse(aiResponse.text!);
       setTopics(topicIdea);
     } catch (error) {
-      console.log('\nError: ', error);
+      console.error('\onTopicGenerate: ', error);
     }
     setLoadingTopics(false);
   };
