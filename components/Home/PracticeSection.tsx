@@ -2,8 +2,9 @@ import { colors } from '@/constants/colors';
 import { practiceOption } from '@/constants/practiceOptions';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 const PracticeIcon = ({ name }: { name: string; }) =>
@@ -19,6 +20,8 @@ const PracticeIcon = ({ name }: { name: string; }) =>
         null;
 
 const PracticeSection = () => {
+  const router = useRouter();
+
   return (
     <View style={{
       marginTop: 10,
@@ -32,7 +35,7 @@ const PracticeSection = () => {
           data={practiceOption}
           numColumns={3}
           renderItem={({ item, index }) => (
-            <View key={index} style={{
+            <TouchableOpacity onPress={() => router.push(`/practice/${item.name}`)} key={index} style={{
               flex: 1,
               margin: 5,
               aspectRatio: 1,
@@ -55,7 +58,7 @@ const PracticeSection = () => {
                 }}>{item.name}</Text>
                 <PracticeIcon name={item.name} />
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         />
       </View>

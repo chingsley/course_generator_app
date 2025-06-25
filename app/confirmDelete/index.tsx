@@ -1,6 +1,6 @@
 import Button from '@/components/Shared/Button';
 import { colors } from '@/constants/colors';
-import { useCourseContext } from '@/context/CoursesContext';
+import { useCoursesContext } from '@/context/CoursesContext';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -10,7 +10,7 @@ import { StyleSheet, Text, View } from 'react-native';
 const ConfirmDelete = () => {
   const router = useRouter();
   const { courseId } = useLocalSearchParams();
-  const { deleteCourse } = useCourseContext();
+  const { deleteCourse } = useCoursesContext();
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
