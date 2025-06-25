@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { UserDetailContext } from '@/context/UserDetailContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useContext } from 'react';
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
   greeting: {
     fontFamily: 'roboto-bold',
     fontSize: 25,
+    color: colors.WHITE
   },
   letsGetStarted: {
     fontFamily: 'roboto',

@@ -4,10 +4,11 @@ import Header from '@/components/Home/Header';
 import NoCourse from '@/components/Home/NoCourse';
 import PracticeSection from '@/components/Home/PracticeSection';
 import { colors } from '@/constants/colors';
+import { images } from '@/constants/images';
 import { useCoursesContext } from '@/context/CoursesContext';
 import { UserDetailContext } from '@/context/UserDetailContext';
 import React, { useContext, useEffect, useState } from 'react';
-import { FlatList, Platform, RefreshControl, StyleSheet, View } from 'react-native';
+import { FlatList, Image, Platform, RefreshControl, StyleSheet, View } from 'react-native';
 
 const Home = () => {
   const { userDetail } = useContext(UserDetailContext);
@@ -38,24 +39,24 @@ const Home = () => {
           style={{ zIndex: 100 }}
         />
       }
-      style={{ flex: 1, backgroundColor: colors.WHITE }}
       ListHeaderComponent={
-        <View style={{
-          flex: 1,
-          backgroundColor: colors.WHITE,
-          padding: 25,
-          paddingTop: Platform.OS == 'ios' ? 100 : 20,
-        }}>
-          <Header />
-          {
-            !loadingRefresh && courseList.length === 0 ?
-              <NoCourse /> :
-              <View>
-                <CourseProgress courseList={courseList} />
-                <PracticeSection />
-                <CourseList courseList={courseList} />
-              </View>
-          }
+        <View style={{ flex: 1, backgroundColor: colors.WHITE }}>
+          <Image source={images.wave} style={styles.imgWaveBackground} />
+          <View style={{
+            padding: 25,
+            paddingTop: Platform.OS == 'ios' ? 85 : 0,
+          }}>
+            <Header />
+            {
+              !loadingRefresh && courseList.length === 0 ?
+                <NoCourse /> :
+                <View style={{ marginVertical: 40 }}>
+                  <CourseProgress courseList={courseList} />
+                  <PracticeSection />
+                  <CourseList courseList={courseList} />
+                </View>
+            }
+          </View>
         </View>
       }
     />
@@ -64,4 +65,10 @@ const Home = () => {
 
 export default Home;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  imgWaveBackground: {
+    position: 'absolute',
+    width: '100%',
+    height: 400
+  }
+});

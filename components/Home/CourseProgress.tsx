@@ -47,11 +47,10 @@ export default CourseProgress;
 
 const styles = StyleSheet.create({
   container: {
-    // borderWidth: 1,
     marginTop: 10,
   },
   compTitle: {
-    fontFamily: 'roboto',
+    fontFamily: 'roboto-bold',
     fontSize: 25,
   },
   progressCard: {
