@@ -1,6 +1,7 @@
 // contexts/CoursesContext.tsx
 import { db } from '@/config/firebaseConfig';
 import { ICourse } from '@/types/course';
+import { sortCoursesByDate } from '@/utils/dateTime';
 import { collection, deleteDoc, doc, DocumentData, getDocs, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import React, { createContext, useContext, useState } from 'react';
 
@@ -41,7 +42,7 @@ export const CoursesProvider = ({ children }: { children: React.ReactNode; }) =>
       id: doc.id,
       ...doc.data()
     }));
-    setCourseList(courses);
+    setCourseList(sortCoursesByDate(courses as ICourse[]));
   };
 
   const deleteCourse = async (courseId: string) => {

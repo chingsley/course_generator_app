@@ -1,5 +1,6 @@
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
+import { ICourseChapter } from '@/types/course';
 import { DocumentData } from 'firebase/firestore';
 import React from 'react';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const CourseProgress = ({ courseList }: Props) => {
+
   return (
     <View style={styles.container}>
       <Text style={styles.compTitle}>Progress</Text>
@@ -17,21 +19,25 @@ const CourseProgress = ({ courseList }: Props) => {
         data={courseList}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item, index }) => (
-          <View style={styles.progressCard} key={index}>
-            <View style={styles.progressCardFlex}>
-              <Image source={images.appIcon} style={styles.bannerImg} />
-              <View style={styles.courseInfoContainer}>
-                <Text numberOfLines={2} style={styles.cardCourseTitle}>{item?.courseTitle}</Text>
-                <Text style={styles.cardCourseChapterCount}>{item?.courseChapters.length} Chapters</Text>
+        renderItem={({ item, index }) => {
+          const completed = item.courseChapters.filter((ch: ICourseChapter) => !!ch.completedAt).length;
+          const progress = completed / item.courseChapters.length;
+          return ((
+            <View style={styles.progressCard} key={index}>
+              <View style={styles.progressCardFlex}>
+                <Image source={images.appIcon} style={styles.bannerImg} />
+                <View style={styles.courseInfoContainer}>
+                  <Text numberOfLines={2} style={styles.cardCourseTitle}>{item?.courseTitle}</Text>
+                  <Text style={styles.cardCourseChapterCount}>{item?.courseChapters.length} Chapters</Text>
+                </View>
+              </View>
+              <View style={styles.progressBarContainer}>
+                <Progress.Bar progress={progress} width={250} color={colors.PRIMARY_BLUE} />
+                <Text style={styles.progessBarText}>Completed {completed} / {item.courseChapters.length} Chapters</Text>
               </View>
             </View>
-            <View style={styles.progressBarContainer}>
-              <Progress.Bar progress={0.3} width={250} color={colors.PRIMARY_BLUE} />
-              <Text style={styles.progessBarText}>Completed 3/5 Chapters</Text>
-            </View>
-          </View>
-        )}
+          ));
+        }}
       />
     </View>
   );

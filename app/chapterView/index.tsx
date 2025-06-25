@@ -45,6 +45,7 @@ const ChapterVeiw = () => {
     setChapterCompleteLoading(true);
     await completeChapter(course!.id, chpNum);
     setChapterCompleteLoading(false);
+    router.replace(`/courseView/${course!.id}`);
   };
 
 
@@ -76,7 +77,7 @@ const ChapterVeiw = () => {
     <SafeAreaView style={{ flex: 1 }}>
 
       <View style={styles.fixedHeader}>
-        <Pressable style={styles.backArrow} onPress={() => router.back()}>
+        <Pressable style={styles.backArrow} onPress={() => router.replace(`/courseView/${course!.id}`)}>
           <Ionicons name="arrow-back" size={34} color={colors.PRIMARY_BLUE} />
         </Pressable>
         <View style={styles.progressContainer}>

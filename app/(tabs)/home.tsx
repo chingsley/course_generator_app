@@ -6,7 +6,6 @@ import PracticeSection from '@/components/Home/PracticeSection';
 import { colors } from '@/constants/colors';
 import { useCoursesContext } from '@/context/CoursesContext';
 import { UserDetailContext } from '@/context/UserDetailContext';
-import { sortCoursesByDate } from '@/utils/dateTime';
 import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, Platform, RefreshControl, StyleSheet, View } from 'react-native';
 
@@ -54,7 +53,7 @@ const Home = () => {
               <View>
                 <CourseProgress courseList={courseList} />
                 <PracticeSection />
-                <CourseList courseList={sortCoursesByDate(courseList)} />
+                <CourseList courseList={courseList} />
               </View>
           }
         </View>
