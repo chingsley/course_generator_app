@@ -1,6 +1,7 @@
 import accentBlob from '@/assets/images/accent-blob.png';
 import appIcon from '@/assets/images/app-icon.png';
 import flashcard from '@/assets/images/flashcard.png';
+import grad1 from '@/assets/images/grad2.png';
 import landing from '@/assets/images/landing_3.png';
 import noCourse from '@/assets/images/no-course.png';
 import practiceSection from '@/assets/images/practice-section.png';
@@ -17,5 +18,6 @@ export const images = {
   wave,
   quiz,
   flashcard,
-  qna
+  qna,
+  grad1
 };

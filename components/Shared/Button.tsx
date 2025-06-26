@@ -50,7 +50,6 @@ export default Button;
 
 const sharedBtnStyles = {
   padding: 17,
-  marginTop: 20,
   borderRadius: 10,
 };
 const sharedTextStyles: TextStyle = {

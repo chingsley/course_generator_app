@@ -3,15 +3,16 @@ import Button from '@/components/Shared/Button';
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
 import quiz from '@/sample/quiz.sample.json';
-import { ICourse } from '@/types/course';
-import { useLocalSearchParams } from 'expo-router';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Dimensions, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import * as Progress from 'react-native-progress';
 
 const Quiz = () => {
-  const { courseParams } = useLocalSearchParams();
-  const course = JSON.parse(courseParams as string) as ICourse;
+  const router = useRouter();
+
+  // const { courseParams } = useLocalSearchParams();
+  // const course = JSON.parse(courseParams as string) as ICourse;
   const [currentPage, setCurrentPage] = useState(0);
   const [userAnsers, setUserAnswers] = useState<string[]>(new Array(quiz.length).fill(''));
   const [selectedIdx, setSelectedOptionIdx] = useState<number | null>(null);
@@ -32,7 +33,13 @@ const Quiz = () => {
   };
 
   const onFinishClick = () => {
-    console.log('finished');
+    router.push({
+      pathname: '/quiz/summary',
+      params: {
+        quizParam: JSON.stringify(quiz),
+        answersParam: JSON.stringify(userAnsers)
+      }
+    });
   };
 
   return (
