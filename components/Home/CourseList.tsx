@@ -1,6 +1,5 @@
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
-import { useCoursesContext } from '@/context/CoursesContext';
 import { ICourse } from '@/types/course';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
@@ -15,10 +14,8 @@ interface CourseListProps {
 
 const CourseList = ({ courseList }: CourseListProps) => {
   const router = useRouter();
-  const { setSelectedCourse } = useCoursesContext();
 
   const goToCourseView = (course: ICourse) => {
-    setSelectedCourse(course);
     router.push(`/courseView/${course.id}`);
   };
 

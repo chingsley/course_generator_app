@@ -18,10 +18,11 @@ const Chapters = ({ course, }: IChaptersProps) => {
       <FlatList
         data={course.courseChapters}
         renderItem={({ item: chapterItem, index }) => (
-          <TouchableOpacity style={styles.chptContentBox} onPress={() => router.push({
+          <TouchableOpacity key={index} style={styles.chptContentBox} onPress={() => router.push({
             pathname: '/chapterView',
             params: {
               chapterNumber: chapterItem.chapterNumber,
+              courseID: course.id,
             },
           })}>
             <View style={styles.chptTextBox}>

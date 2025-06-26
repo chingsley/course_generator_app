@@ -17,7 +17,8 @@ const CourseView = () => {
   const router = useRouter();
   const { courseId } = useLocalSearchParams();
   const [course, setCourse] = useState<ICourse | null>(null);
-  const { selectedCourse } = useCoursesContext();
+  const { courseList } = useCoursesContext();
+  const selectedCourse = courseList.find(c => c.id === courseId);
 
   const getCourseById = async () => {
     const docRef = await getDoc(doc(db, 'courses', courseId as string));
@@ -71,7 +72,7 @@ const CourseView = () => {
                 outline
               />
             </View>
-            <Pressable style={styles.backArrow} onPress={() => router.back()}>
+            <Pressable style={styles.backArrow} onPress={() => router.push('/home')}>
               <Ionicons name="arrow-back" size={34} color="black" />
             </Pressable>
           </View>

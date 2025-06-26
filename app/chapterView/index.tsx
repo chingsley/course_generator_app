@@ -16,13 +16,14 @@ import { GenerateContentResponse } from '@google/genai';
 
 const ChapterVeiw = () => {
   const router = useRouter();
-  const { chapterNumber: chpStr, course: courseStr } = useLocalSearchParams();
+  const { chapterNumber: chpStr, courseID } = useLocalSearchParams();
   const [chapterCompleteLoading, setChapterCompleteLoading] = useState(false);
   const chapterNumber = Number(chpStr);
   const [chapterContent, setChapterContent] = useState<any>(null);
   // const [chapterContent, setChapterContent] = useState<any>(sampleChapter); // testing
   const [error, setError] = useState<string | null>(null);
-  const { completeChapter, selectedCourse: course } = useCoursesContext();
+  const { completeChapter, courseList } = useCoursesContext();
+  const course = courseList.find(c => c.id === courseID) as ICourse;
   const chapter = course!.courseChapters.find((c => c.chapterNumber === chapterNumber))!;
 
 

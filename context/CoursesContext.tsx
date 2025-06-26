@@ -7,10 +7,8 @@ import React, { createContext, useContext, useState } from 'react';
 
 interface CoursesContextType {
   courseList: any[];
-  selectedCourse: ICourse | null;
   getCourseList: (email: string) => Promise<void>;
   deleteCourse: (courseId: string) => Promise<void>;
-  setSelectedCourse: React.Dispatch<React.SetStateAction<ICourse | null>>;
   completeChapter: (courseID: string, chapterNumber: number) => Promise<void>;
 }
 
@@ -18,8 +16,6 @@ const defaultCoursesContext = {
   courseList: [],
   getCourseList: async () => { },
   deleteCourse: async () => { },
-  selectedCourse: null,
-  setSelectedCourse: () => { },
   completeChapter: async () => { },
 };
 
@@ -29,7 +25,6 @@ export const useCoursesContext = () => useContext(CoursesContext);
 
 export const CoursesProvider = ({ children }: { children: React.ReactNode; }) => {
   const [courseList, setCourseList] = useState<DocumentData[]>([]);
-  const [selectedCourse, setSelectedCourse] = useState<ICourse | null>(null);
 
   const getCourseList = async (email: string) => {
     setCourseList([]);
@@ -56,6 +51,8 @@ export const CoursesProvider = ({ children }: { children: React.ReactNode; }) =>
   };
 
   const completeChapter = async (courseID: string, chapterNumber: number) => {
+    const selectedCourse = courseList.find(ch => ch.id === courseID);
+
     if (!selectedCourse) return;
     try {
       const courseRef = doc(db, 'courses', courseID);
@@ -75,8 +72,6 @@ export const CoursesProvider = ({ children }: { children: React.ReactNode; }) =>
         ...selectedCourse,
         courseChapters: courseChapters
       };
-
-      setSelectedCourse(updatedCourse);
       setCourseList(prev => prev.map(course =>
         course.id === courseID ? updatedCourse : course
       ));
@@ -89,10 +84,8 @@ export const CoursesProvider = ({ children }: { children: React.ReactNode; }) =>
   return (
     <CoursesContext.Provider value={{
       courseList,
-      selectedCourse,
       getCourseList,
       deleteCourse,
-      setSelectedCourse,
       completeChapter,
     }}>
       {children}
