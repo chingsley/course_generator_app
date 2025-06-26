@@ -14,10 +14,10 @@ const Quiz = () => {
   const course = JSON.parse(courseParams as string) as ICourse;
   const [currentPage, setCurrentPage] = useState(0);
   const [userAnsers, setUserAnswers] = useState<string[]>(new Array(quiz.length).fill(''));
-  const [selectedOptionIdx, setSelectedOptionIdx] = useState<number | null>(null);
+  const [selectedIdx, setSelectedOptionIdx] = useState<number | null>(null);
 
 
-  const handleAnswerSelection = (item: string, idx: number) => {
+  const onAnswerSelection = (item: string, idx: number) => {
     setUserAnswers(prev => {
       const updated = [...prev];
       updated[currentPage] = item;
@@ -26,9 +26,13 @@ const Quiz = () => {
     setSelectedOptionIdx(idx);
   };
 
-  const goToNextQuestion = () => {
+  const onNextClick = () => {
     setCurrentPage(prev => (prev + 1) % quiz.length);
     setSelectedOptionIdx(null);
+  };
+
+  const onFinishClick = () => {
+    console.log('finished');
   };
 
   return (
@@ -41,7 +45,7 @@ const Quiz = () => {
         </View>
         <View style={styles.progressContainer}>
           <Progress.Bar
-            progress={currentPage / quiz.length}
+            progress={(currentPage + 1) / quiz.length}
             width={null}
             color={colors.WHITE}
             style={styles.progressBar}
@@ -53,18 +57,19 @@ const Quiz = () => {
           <View style={styles.ansOptionsContainer}>
             {quiz[currentPage].options.map((item, index) => {
               return (
-                <Pressable key={index} style={[styles.ansOption, selectedOptionIdx === index && {
+                <Pressable key={index} style={[styles.ansOption, selectedIdx === index && {
                   borderWidth: 1,
                   borderColor: colors.PRIMARY_BLUE,
                   backgroundColor: colors.LIGHT_GRAY_2,
-                }]} onPress={() => handleAnswerSelection(item, index)}>
+                }]} onPress={() => onAnswerSelection(item, index)}>
                   <Text style={styles.ansOptionText}>{item}</Text>
                 </Pressable>
               );
             })}
           </View>
         </View>
-        {selectedOptionIdx !== null && <Button text="Next" onPress={goToNextQuestion} />}
+        {(selectedIdx !== null && currentPage !== quiz.length - 1) && <Button text="Next" onPress={onNextClick} />}
+        {(selectedIdx !== null && currentPage === quiz.length - 1) && <Button text="Finish" onPress={onFinishClick} />}
       </View>
     </SafeAreaView>
   );
