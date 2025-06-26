@@ -21,7 +21,7 @@ const PracticeTypeHomeScreen = () => {
       {type === 'flashcards' && <Image source={images.flashcard} style={styles.bannerImg} />}
 
       <View style={styles.caption}>
-        <BackButton color={colors.WHITE} />
+        <BackButton color={colors.WHITE} style={{ paddingHorizontal: 10 }} />
         <Text style={styles.captionText}>{type}</Text>
       </View>
 

@@ -5,12 +5,13 @@ import { Pressable, StyleSheet } from 'react-native';
 
 interface IBackButtonProps {
   color?: string;
+  style?: object;
 }
-const BackButton = ({ color }: IBackButtonProps) => {
+const BackButton = ({ color, style }: IBackButtonProps) => {
   const router = useRouter();
 
   return (
-    <Pressable style={styles.backArrow} onPress={() => router.back()}>
+    <Pressable style={style} onPress={() => router.back()}>
       <Ionicons name="arrow-back" size={34} color={color || 'black'} />
     </Pressable>
   );

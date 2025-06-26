@@ -3,21 +3,23 @@ import { ICourse } from '@/types/course';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 
-const QuizIcon = ({ type }: { type: string; }) => {
-  const size = 40;
+const QuizTypeIcon = ({ type, size, color }: { type: string; size?: number; color?: string; }) => {
+  size = size || 40;
+  color = color || colors.PRIMARY_BLUE;
   return (
     <>
       {type.toLocaleLowerCase() === 'quiz'
-        && < MaterialIcons name="quiz" size={size} color={colors.PRIMARY_BLUE} />}
+        && < MaterialIcons name="quiz" size={size} color={color} />}
       {type.toLocaleLowerCase() === 'flashcards'
-        && <MaterialCommunityIcons name="cards-playing-outline" size={size} color={colors.PRIMARY_BLUE} />}
+        && <MaterialCommunityIcons name="cards-playing-outline" size={size} color={color} />}
       {type.toLocaleLowerCase() === 'q & a'
-        && <MaterialIcons name="question-answer" size={size} color={colors.PRIMARY_BLUE} />}
+        && <MaterialIcons name="question-answer" size={size} color={color} />}
     </>
   );
 };
@@ -28,15 +30,26 @@ interface ICLGProps {
   type: string;
 }
 const CourseListGrid = ({ courseList, type }: ICLGProps) => {
+  const router = useRouter();
+
+  const onPress = (course: ICourse) => {
+    if (type.toLocaleLowerCase() === 'quiz') {
+      router.push({
+        pathname: '/quiz',
+        params: { courseParams: JSON.stringify(course) }
+      });
+    }
+  };
+
   return (
     <View style={styles.gridContainter}>
       <FlatList
         data={courseList}
         numColumns={3}
         renderItem={({ item, index }) => (
-          <TouchableOpacity key={index} style={styles.quizCard}>
+          <TouchableOpacity key={index} onPress={() => onPress(item)} style={styles.quizCard}>
             <View style={styles.iconContainer}>
-              <QuizIcon type={type} />
+              <QuizTypeIcon type={type} />
             </View>
             <Text style={styles.cardText}>{item.courseTitle}</Text>
             <Ionicons name="checkmark-circle" size={24} color="green" style={styles.checkComplete} />
