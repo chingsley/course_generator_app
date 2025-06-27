@@ -1,24 +1,23 @@
 import { images } from "./images";
 
+export type TPracticeType = 'quiz' | 'flashcards' | 'q & a';
+export const practiceTypes: { [key: string]: TPracticeType; } = {
+  quiz: 'quiz',
+  flashcards: 'flashcards',
+  qna: 'q & a'
+} as const;
 export const practiceOption = [
   {
-    name: 'Quiz',
+    name: practiceTypes.quiz,
     image: images.practiceSection,
   },
   {
-    name: 'Flashcards',
+    name: practiceTypes.flashcards,
     image: images.practiceSection,
   },
   {
-    name: 'Q & A',
+    name: practiceTypes.qna,
     image: images.practiceSection,
   },
 ];
 
-export const imageAssets = {
-  '/banner1.png': images.practiceSection,
-  '/banner2-png': images.practiceSection,
-  '/banner3.png': images.practiceSection,
-  '/banner4.png': images.practiceSection,
-  '/banner5.png': images.practiceSection,
-};

@@ -52,19 +52,19 @@ const QuizSummary = () => {
             <View style={styles.iconsContainer}>
               <View style={styles.iconBox}>
                 <Ionicons name="help-circle-outline" size={24} color={colors.PRIMARY_BLUE} />
-                <Text>{stats.total}</Text>
+                <Text style={styles.text3}>{stats.total}</Text>
               </View>
               <View style={styles.iconBox}>
-                <Ionicons name="checkbox" size={24} color="green" />
-                <Text>{stats.correct}</Text>
+                <Ionicons name="checkbox" size={24} color={stats.correct > 0 ? "green" : colors.GRAY} />
+                <Text style={styles.text3}>{stats.correct}</Text>
               </View>
               <View style={styles.iconBox}>
-                <Ionicons name="close-circle-outline" size={24} color="red" />
-                <Text>{stats.wrong}</Text>
+                <Ionicons name="close-circle-outline" size={24} color={stats.wrong > 0 ? "red" : colors.GRAY} />
+                <Text style={styles.text3}>{stats.wrong}</Text>
               </View>
             </View>
             <View style={styles.btnContainer}>
-              <Button text="Back To Home" onPress={() => router.push('/quiz')} />
+              <Button text="Back To Home" onPress={() => router.push('/home')} />
             </View>
           </View>
           <View style={styles.downBox}>

@@ -1,4 +1,5 @@
 import { colors } from '@/constants/colors';
+import { practiceTypes, TPracticeType } from '@/constants/practiceOptions';
 import { ICourse } from '@/types/course';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -9,16 +10,16 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 
 
 
-const QuizTypeIcon = ({ type, size, color }: { type: string; size?: number; color?: string; }) => {
+const QuizTypeIcon = ({ type, size, color }: { type: TPracticeType; size?: number; color?: string; }) => {
   size = size || 40;
   color = color || colors.PRIMARY_BLUE;
   return (
     <>
-      {type.toLocaleLowerCase() === 'quiz'
+      {type === practiceTypes.quiz
         && < MaterialIcons name="quiz" size={size} color={color} />}
-      {type.toLocaleLowerCase() === 'flashcards'
+      {type === practiceTypes.flashcards
         && <MaterialCommunityIcons name="cards-playing-outline" size={size} color={color} />}
-      {type.toLocaleLowerCase() === 'q & a'
+      {type === practiceTypes.qna
         && <MaterialIcons name="question-answer" size={size} color={color} />}
     </>
   );
@@ -27,15 +28,21 @@ const QuizTypeIcon = ({ type, size, color }: { type: string; size?: number; colo
 
 interface ICLGProps {
   courseList: ICourse[];
-  type: string;
+  type: TPracticeType;
 }
 const CourseListGrid = ({ courseList, type }: ICLGProps) => {
   const router = useRouter();
 
   const onPress = (course: ICourse) => {
-    if (type.toLocaleLowerCase() === 'quiz') {
+    if (type === practiceTypes.quiz) {
       router.push({
         pathname: '/quiz',
+        params: { courseParams: JSON.stringify(course) }
+      });
+    }
+    if (type === practiceTypes.flashcards) {
+      router.push({
+        pathname: '/flashcards',
         params: { courseParams: JSON.stringify(course) }
       });
     }

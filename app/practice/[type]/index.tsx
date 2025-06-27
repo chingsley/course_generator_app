@@ -2,6 +2,7 @@ import CourseListGrid from '@/components/PracticeScreen/CourseListGrid';
 import BackButton from '@/components/Shared/BackButton';
 import { colors } from '@/constants/colors';
 import { images } from '@/constants/images';
+import { practiceTypes, TPracticeType } from '@/constants/practiceOptions';
 import { useCoursesContext } from '@/context/CoursesContext';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
 import React from 'react';
@@ -11,21 +12,21 @@ import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 const PracticeTypeHomeScreen = () => {
   let { type } = useLocalSearchParams();
   type = type.toString().toLowerCase();
-  const { courseList, getCourseList } = useCoursesContext();
+  const { courseList } = useCoursesContext();
 
   return (
     <SafeAreaView>
       <Image source={images.wave} style={styles.waveImg} />
-      {type === 'q & a' && <Image source={images.qna} style={styles.bannerImg} />}
-      {type === 'quiz' && <Image source={images.quiz} style={styles.bannerImg} />}
-      {type === 'flashcards' && <Image source={images.flashcard} style={styles.bannerImg} />}
+      {type === practiceTypes.qna && <Image source={images.qna} style={styles.bannerImg} />}
+      {type === practiceTypes.quiz && <Image source={images.quiz} style={styles.bannerImg} />}
+      {type === practiceTypes.flashcards && <Image source={images.flashcard} style={styles.bannerImg} />}
 
       <View style={styles.caption}>
         <BackButton color={colors.WHITE} style={{ paddingHorizontal: 10 }} />
         <Text style={styles.captionText}>{type}</Text>
       </View>
 
-      <CourseListGrid courseList={courseList} type={type} />
+      <CourseListGrid courseList={courseList} type={type as TPracticeType} />
     </SafeAreaView>
   );
 };

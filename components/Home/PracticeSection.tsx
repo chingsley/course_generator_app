@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import { practiceOption } from '@/constants/practiceOptions';
+import { practiceOption, practiceTypes, TPracticeType } from '@/constants/practiceOptions';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
@@ -7,14 +7,14 @@ import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
-const PracticeIcon = ({ name }: { name: string; }) =>
-  name.toLocaleLowerCase() === 'quiz' ?
+const PracticeIcon = ({ name }: { name: TPracticeType; }) =>
+  name === practiceTypes.quiz ?
     <MaterialIcons name="quiz" size={70} color={colors.PRIMARY_BLUE} />
     :
-    name.toLocaleLowerCase() == 'flashcards' ?
+    name == practiceTypes.flashcards ?
       <MaterialCommunityIcons name="cards-playing-outline" size={70} color={colors.PRIMARY_BLUE} />
       :
-      name.toLocaleLowerCase() === 'q & a' ?
+      name.toLocaleLowerCase() === practiceTypes.qna ?
         <MaterialIcons name="question-answer" size={70} color={colors.PRIMARY_BLUE} />
         :
         null;
@@ -55,6 +55,7 @@ const PracticeSection = () => {
                   fontSize: 20,
                   position: 'absolute',
                   bottom: -10,
+                  textTransform: 'capitalize',
                 }}>{item.name}</Text>
                 <PracticeIcon name={item.name} />
               </View>
