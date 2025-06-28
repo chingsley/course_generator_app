@@ -56,6 +56,9 @@ const CourseView = () => {
             <View style={styles.imgBox}>
               <Image source={images.practiceSection} style={styles.bannerImg} />
             </View>
+            <Pressable style={styles.backArrow} onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={34} color="black" />
+            </Pressable>
             <View style={styles.courseContentBox}>
               <Intro course={course} />
               <Chapters course={course} />
@@ -72,9 +75,7 @@ const CourseView = () => {
                 outline
               />
             </View>
-            <Pressable style={styles.backArrow} onPress={() => router.push('/home')}>
-              <Ionicons name="arrow-back" size={34} color="black" />
-            </Pressable>
+
           </View>
         }
       />

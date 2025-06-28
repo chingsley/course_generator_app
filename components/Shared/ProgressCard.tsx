@@ -5,11 +5,11 @@ import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import * as Progress from 'react-native-progress';
 
-const ProgressCard = ({ course }: { course: ICourse; }) => {
+const ProgressCard = ({ course, style }: { course: ICourse; style?: Object; }) => {
   const completed = course.courseChapters.filter((ch: ICourseChapter) => !!ch.completedAt).length;
   const progress = completed / course.courseChapters.length;
   return (
-    <View style={styles.progressCard}>
+    <View style={[styles.progressCard, style]}>
       <View style={styles.progressCardFlex}>
         <Image source={images.appIcon} style={styles.bannerImg} />
         <View style={styles.courseInfoContainer}>
@@ -34,6 +34,8 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: colors.BG_GRAY,
     borderRadius: 8,
+    borderWidth: 0.3,
+    // borderColor: 'black',
   },
   progressCardFlex: {
     display: 'flex',
