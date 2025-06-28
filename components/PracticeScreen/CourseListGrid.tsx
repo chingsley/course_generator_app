@@ -46,6 +46,12 @@ const CourseListGrid = ({ courseList, type }: ICLGProps) => {
         params: { courseParams: JSON.stringify(course) }
       });
     }
+    if (type === practiceTypes.qna) {
+      router.push({
+        pathname: '/qna',
+        params: { courseParams: JSON.stringify(course) }
+      });
+    }
   };
 
   return (
