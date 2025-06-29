@@ -75,8 +75,10 @@ const Quiz = () => {
             })}
           </View>
         </View>
-        {(selectedIdx !== null && currentPage !== quiz.length - 1) && <Button text="Next" onPress={onNextClick} />}
-        {(selectedIdx !== null && currentPage === quiz.length - 1) && <Button text="Finish" onPress={onFinishClick} />}
+        {(selectedIdx !== null && currentPage !== quiz.length - 1) &&
+          <Button text="Next" style={{ marginTop: 15, }} onPress={onNextClick} />}
+        {(selectedIdx !== null && currentPage === quiz.length - 1) &&
+          <Button text="Finish" style={{ marginTop: 15, }} onPress={onFinishClick} />}
       </View>
     </SafeAreaView>
   );

@@ -46,7 +46,7 @@ const CourseView = () => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ marginBottom: 40 }}>
       <FlatList
         style={styles.flatListWrapper}
         data={[]}
@@ -65,6 +65,7 @@ const CourseView = () => {
               <Button
                 type='delete'
                 text='Delete this course'
+                style={{ marginTop: 20, }}
                 onPress={() => router.push({
                   pathname: '/confirmDelete',
                   params: {

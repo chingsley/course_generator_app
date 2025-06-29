@@ -59,7 +59,10 @@ const ChapterVeiw = () => {
     return (
       <View style={styles.errorContainer}>
         <Text style={styles.errorText}>{error}</Text>
-        <Button text="Retry" onPress={generateChapter} type="primary" />
+        <Button text="Retry"
+          style={{ marginTop: 10, }}
+          onPress={generateChapter}
+          type="primary" />
       </View>
     );
   }

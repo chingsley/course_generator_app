@@ -18,11 +18,12 @@ interface ButtonProps {
   type?: BtnStyleType;
   outline?: true;
   disabled?: boolean;
+  style?: Object;
 }
-const Button = ({ type, outline, onPress, text, loading, disabled }: ButtonProps) => {
+const Button = ({ type, outline, onPress, text, loading, disabled, style }: ButtonProps) => {
   const btnStyle = getBtnStyle(type, outline);
   return (
-    <View>
+    <View style={style}>
       <TouchableOpacity
         onPress={onPress}
         style={btnStyle.btn}

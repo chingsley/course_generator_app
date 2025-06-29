@@ -100,6 +100,7 @@ const AddCourse = () => {
       />
       <Button
         text={'Generate Topic'}
+        style={{ marginTop: 20, }}
         onPress={onTopicGenerate}
         loading={loadingTopics}
         disabled={!userInput || loadingCourseGeneration}

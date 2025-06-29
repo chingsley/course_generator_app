@@ -12,8 +12,16 @@ const NoCourse = () => {
       <View style={{
         width: '100%',
       }}>
-        <Button text={"+ Create New Course"} onPress={() => router.push('/addCourse')} loading={false} />
-        <Button text={"Explore Existing Courses"} outline onPress={() => router.push('/auth/login')} loading={false} />
+        <Button
+          text={"+ Create New Course"}
+          style={{ marginTop: 15, }}
+          onPress={() => router.push('/addCourse')}
+          loading={false} />
+        <Button
+          text={"Explore Existing Courses"}
+          style={{ marginTop: 15, }}
+          outline onPress={() => router.push('/auth/login')}
+          loading={false} />
       </View>
     </View>
   );

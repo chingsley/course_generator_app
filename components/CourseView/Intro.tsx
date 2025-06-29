@@ -1,10 +1,10 @@
+import Button from '@/components/Shared/Button';
 import { colors } from '@/constants/colors';
 import { ICourse } from '@/types/course';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Button from '../Shared/Button';
 
 interface IntroProps {
   course: ICourse;
@@ -24,6 +24,7 @@ const Intro = ({ course }: IntroProps) => {
       <Text style={styles.descr}>{course?.courseDescription}</Text>
       <Button
         text={completedChaptersCount === 0 ? 'Start Now' : 'Contine'}
+        style={{ marginTop: 10, }}
         onPress={() => router.push({
           pathname: '/chapterView',
           params: {

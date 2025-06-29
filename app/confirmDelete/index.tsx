@@ -25,6 +25,7 @@ const ConfirmDelete = () => {
       <Text style={styles.confirmQn}>Are you sure you want to delete this course?</Text>
       <Button
         text={'Cancel'}
+        style={{ marginTop: 15, }}
         onPress={() => router.back()}
         type={'primary'}
         outline
@@ -32,6 +33,7 @@ const ConfirmDelete = () => {
       />
       <Button
         text={'Delete'}
+        style={{ marginTop: 20, }}
         onPress={handleDelete}
         type={'delete'}
         outline
