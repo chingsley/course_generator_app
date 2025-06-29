@@ -9,10 +9,11 @@ import { FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } 
 
 interface CourseListProps {
   courseList: DocumentData[];
+  heading?: string;
 }
 
 
-const CourseList = ({ courseList }: CourseListProps) => {
+const CourseList = ({ courseList, heading }: CourseListProps) => {
   const router = useRouter();
 
   const goToCourseView = (course: ICourse) => {
@@ -22,7 +23,7 @@ const CourseList = ({ courseList }: CourseListProps) => {
   return (
     <View style={styles.compContainer}>
       <View style={styles.titleContainer}>
-        <Text style={styles.compTitle}>Course List ({courseList.length})</Text>
+        <Text style={styles.compTitle}>{heading ? heading : 'Course List '} ({courseList.length})</Text>
         <Pressable onPress={() => router.push('/addCourse')} style={styles.btnAddNewCourse}>
           <Ionicons name="add-circle" size={30} color={colors.PRIMARY_BLUE} />
         </Pressable>
@@ -50,13 +51,16 @@ export default CourseList;
 
 const styles = StyleSheet.create({
   compContainer: {
-    marginTop: 25,
+    borderBottomWidth: 0.3,
+    paddingBottom: 10,
+    marginTop: 10,
   },
   titleContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    marginBottom: -10,
   },
   compTitle: {
     fontFamily: 'roboto-bold',
